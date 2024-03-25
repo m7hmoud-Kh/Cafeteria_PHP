@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     //store userId in Database
     if(is_int($userId)){
         $_SESSION['user_id'] = $userId;
-        header('Location:shoppingOrder.php');
+        header('Location: shoppingOrder.php');
     }
 
 }

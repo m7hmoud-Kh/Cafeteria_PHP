@@ -2,6 +2,8 @@
 session_start();
 include_once '../../controller/dashboard/AllOrder.php';
 include_once '../../controller/dashboard/CheckOrder.php';
+
+
 $checkOrder = new CheckOrder();
 $orders = new AllOrder();
 
@@ -10,11 +12,7 @@ if($_SERVER['REQUEST_METHOD'] =='POST'){
     $data['order_id'] = intval($_POST['order_id']);
     $orders->updateStatus($data);
 }
-
-
 $allOrder = $orders->getAllOrderLatest();
-
-
 
 
 include_once './includes/header.php';
