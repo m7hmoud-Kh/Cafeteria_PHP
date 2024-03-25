@@ -15,23 +15,26 @@ if(isset($_SESSION['user_id'])){
         //insert in Order table
         $data['user_id'] = $_SESSION['user_id'];
         $data['total_per_order'] = $_POST['final_total'];
-        $data['status'] = $manualOrder::PROCESSING;
+        $data['status'] = $manualOrder->orderModel::PROCESSING;
         $data['notes'] = $_POST['notes'];
         $data['room_id'] = $_POST['room_id'];
         $data['created_by'] = 'admin';
-        $orderId = $manualOrder->storeOrder($data);
-        //get lastInsertId and insert in order product from session
-        foreach ($allCartInfo as $productId => $cartInfo) {
-            $data['order_id'] = $orderId;
-            $data['product_id'] = $productId;
-            $data['quantity'] = $cartInfo['quantity'];
-            $data['total_per_product'] = $cartInfo['totalPerProduct'];
-            $manualOrder->insertProductOrder($data);
+        //check if quantity is less than stock
+        $error = $manualOrder->checkQuantityOfProductBeforePlaceOrder();
+        if(!$error){
+            $orderId = $manualOrder->storeOrder($data);
+            //get lastInsertId and insert in order product from session
+            foreach ($allCartInfo as $productId => $cartInfo) {
+                $data['order_id'] = $orderId;
+                $data['product_id'] = $productId;
+                $data['quantity'] = $cartInfo['quantity'];
+                $data['total_per_product'] = $cartInfo['totalPerProduct'];
+                $manualOrder->insertProductOrder($data);
+            }
+            unset($_SESSION['cart']);
+            $_SESSION['makeOrder'] = 'The Order created Successfully';
+            header("Location: manualOrder.php");
         }
-
-        unset($_SESSION['cart']);
-        $_SESSION['makeOrder'] = 'The Order created Successfully';
-        header("Location: manualOrder.php");
     }
 
     include_once './includes/header.php';
@@ -67,6 +70,13 @@ if(isset($_SESSION['user_id'])){
                     <div class="card card-statistics mb-30">
                         <div class="card-body">
                             <h5 class="text-uppercase mb-4">Cart Info</h5>
+                            <?php
+                            if(isset($_SESSION['error'])){
+                                ?>
+                                <p class="alert alert-danger"><?=$_SESSION['error']?></p>
+                                <?php
+                            }
+                            ?>
                             <div class="table-responsive mb-4">
                                 <table class="table">
                                     <thead class="bg-light">

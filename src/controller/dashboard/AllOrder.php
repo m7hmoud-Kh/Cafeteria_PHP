@@ -5,7 +5,6 @@ include_once '../../model/Product.php';
 include_once '../../model/OrderProduct.php';
 
 
-
 require_once '../../model/Connection.php';
 
 class AllOrder{
@@ -15,12 +14,11 @@ class AllOrder{
 
     public $orderModel;
     public $orderProductModel;
-
+    public $manualOrder;
     public function __construct()
     {
         $this->userModel = new User();
         $this->productModel = new Product();
-
         $this->orderModel = new Order();
         $this->orderProductModel = new OrderProduct();
     }
@@ -34,6 +32,15 @@ class AllOrder{
         $order = $this->orderModel->getOrderById($data['order_id']);
         if($order){
             $data['status'] = intval($order['status'])+1;
+            if($data['status'] == $this->orderModel::DONE){
+                $orderProducts = $this->orderProductModel->getAllProductOfSpecificOrder($order['id']);
+                foreach ($orderProducts as $orderProduct) {
+                    $product = $this->productModel->getProductById($orderProduct['product_id']);
+                    $data['quantity'] = $product['quantity'] - $orderProduct['quantity'];
+                    $data['product_id'] = $product['id'];
+                    $this->productModel->decrementOfQuantity($data);
+                }
+            }
             $this->orderModel->updateStatusOfOrder($data);
         }
     }

@@ -2,6 +2,9 @@
 class Order{
 
     public $con;
+    public const PROCESSING = 1;
+    public const OUT_OF_DELIVERY = 2;
+    public const DONE = 3;
     public function __construct()
     {
         $connection = new Connection();

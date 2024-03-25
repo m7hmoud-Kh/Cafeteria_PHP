@@ -21,9 +21,9 @@ function getHeader($title){
         <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
     </head>
     <body>
-        <div class="wrapper">
+        <!-- <div class="wrapper">
             <div id="pre-loader">
                 <img src="./assets/images/pre-loader/loader-01.svg" alt="">
-            </div>
+            </div> -->
     HTML;
 }

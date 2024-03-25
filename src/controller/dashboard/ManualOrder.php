@@ -14,9 +14,7 @@ class ManualOrder{
     public $roomModel;
     public $orderModel;
     public $orderProductModel;
-    public const PROCESSING = 1;
-    public const OUT_OF_DELIVERY = 2;
-    public const DONE = 3;
+
     public function __construct()
     {
         $this->userModel = new User();
@@ -42,7 +40,7 @@ class ManualOrder{
     {
         $productAlreadyExist = false;
 
-        if($_SESSION['cart']){
+        if(isset($_SESSION['cart'][$_SESSION['user_id']])){
         $productAlreadyExist = key_exists($data['product_id'],$_SESSION['cart'][$data['user_id']]);
         }
         if(!$productAlreadyExist){
@@ -54,6 +52,17 @@ class ManualOrder{
             $_SESSION['cart'][$data['user_id']][$data['product_id']]['quantity'] = $data['quantity'];
             $_SESSION['cart'][$data['user_id']][$data['product_id']]['totalPerProduct'] = $data['product_total'];
         }
+    }
+
+    public function checkQuantityOfProductBeforePlaceOrder(){
+        foreach ($_SESSION['cart'][$_SESSION['user_id']] as $productId => $productInfo) {
+            $product = $this->productModel->getProductById($productId);
+            if($product['quantity'] < $productInfo['quantity']){
+                $_SESSION['error'] = "you reach to maximum value of quantity In Proudct with Id: $productId";
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getProductById($productId)

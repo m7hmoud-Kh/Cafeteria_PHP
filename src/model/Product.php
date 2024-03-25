@@ -23,5 +23,10 @@ class Product {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function decrementOfQuantity($data){
+        $stmt = $this->con->prepare('UPDATE products set quantity = ? where id = ?');
+        $stmt->execute([$data['quantity'],$data['product_id']]);
+
+    }
 
 }
