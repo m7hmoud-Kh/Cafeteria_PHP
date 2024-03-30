@@ -1,5 +1,26 @@
 <?php
+session_start();
 require '../../model/User.php';
+// require '../../../vendor/autoload.php'; // Include PHPMailer autoloader
+require '../../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require '../../../vendor/phpmailer/phpmailer/src/SMTP.php';
+require '../../../vendor/phpmailer/phpmailer/src/Exception.php';
+function validate($data)
+{
+$data=trim($data);
+$data=addslashes($data);
+$data=htmlspecialchars($data);
+return $data;
+}
+$errors=[];
+
+
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\SMTP;
+// use PHPMailer\PHPMailer\Exception;
+
+
+
 class UserController 
 {
     private $flag;
@@ -12,13 +33,18 @@ class UserController
     function login($email,$pass)
     {
         //var_dump($email);
-         $this->flag=$this->userModel->getUserData($email);
+         $this->flag=$this->userModel->getUserData("email='{$email}'");
         // var_dump($this->flag);
         $HashedPass=$this->flag['password'];
          if($this->flag && password_verify($pass,$HashedPass))
          {
+                //$_SESSION['username']=$this->flag['username'];
+                //$_SESSION['user_id']=$this->flag['id'];
+                setcookie("username",$this->flag['username']);
+                setcookie("user_id",$this->flag['id']);
+
                 // check pass
-             //echo $this->flag['password'];
+                //echo $this->flag['password'];
                  echo "welcome ".$this->flag['username'];
                  // render to list product page on mostafa code 
 
@@ -32,34 +58,148 @@ class UserController
     function forget($email)
     {
         
-        $this->flag=$this->userModel->getUserData($email);
+        $this->flag=$this->userModel->getUserData("email='{$email}'");
+       
         if($this->flag)
          {
-                //send email
-                $receiver = $email;
-                $subject = " Password Reset Request";
-                $body = "You recently requested to reset your password for Cafeteria WebSite.";
-                $sender = "From:sonbaty1937@gmail.com";
-            if(mail($receiver, $subject, $body, $sender)){
-            echo "Email sent successfully to $receiver";
-            }else{
-            echo "Sorry, failed while sending mail!";
-            }  
+                $mail=new PHPMailer\PHPMailer\PHPMailer();
+                try{
+                    $reset_password_token=md5(rand());
+                    $receiver=$email;
+                    //server setting
+                    $mail->isSMTP();
+                    $mail->Host='smtp.gmail.com';
+                    $mail->SMTPAuth=true;
+                    $mail->Username='sonbaty1937@gmail.com';
+                    $mail->Password='ynnm msiu zzyq soae';
+                    $mail->SMTPSecure='tls';
+                    $mail->Port=587;
+                    //Recipients
+                    $mail->setFrom('sonbaty1937@gmail.com', 'Ahmed kamal');
+                    $mail->addAddress($email);
+                    //content
+                    $mail->isHTML(true);
+                    $mail->Subject="Password Reset Request";
+                    $mail->Body = "You recently requested to reset your password your code = $reset_password_token <br> <a href='http://localhost/Cafeteria_php/src/view/website/code_reset_password.php'>Reset Password</a>";
+                   
+                    //sendmail
+                    
+                    $mail->send();
+                    echo "Email sent successfully to $receiver";
+                    echo $reset_password_token;
+                     $this->userModel->UpdateUserData($reset_password_token,$email) ;
+                    header("Location:../../view/website/code_reset_password.php");
+                }catch (Exception $e) {
+                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
          }
-         else
-         {
-           //  header("Location:../../view/website/login.php?error=1");
-         }
+         
+        
     } 
+    function reset($pass,$token)
+    {   
+        $hashedpass=password_hash($pass,PASSWORD_DEFAULT);
+       // var_dump($hashedpass);
+         $this->userModel->reset_pass($hashedpass,$token);
+        //var_dump( $this->userModel);
+        header("Location:../../view/website/login.php");
+    }
+    function confirm_code($token)
+    {
+       
+        $data=$this->userModel->getUserData("token='{$token}'");
+        var_dump($data);
+        if(!$data)
+        {
+            header("Location:../../view/website/code_reset_password.php?error=wrong_code");
+        }
+        else
+        {
+
+            header("Location:../../view/website/reset.php?token=$token");
+        }
+    }
+
 }
 $userControler=new UserController;
-if(isset($_POST['email']))
-{
-    $userControler->login($_POST['email'],$_POST['password']);
-}
-else if(isset($_POST['sendmail']))
-{
-    $userControler->forget($_POST['sendmail']);
 
+if(isset($_POST['login']))
+{
+
+    if(empty(validate($_POST['email'])))
+    {   
+        $errors['email']='email is required';
+    }
+    else if(!filter_var(validate($_POST['email']),FILTER_VALIDATE_EMAIL))
+    {
+        $errors['email']='invalid email';
+
+    }
+    if(empty($_POST['password']))
+    {
+        $errors['password']='password required';
+            
+    }
+    if(count($errors)>0)
+    {
+        header("Location:../../view/website/login.php?errors=".json_encode($errors));
+    }
+    else
+    {
+
+        $userControler->login($_POST['email'],$_POST['password']);
+    }
+}
+else if(isset($_POST['forget']))
+{
+    if(empty(validate($_POST['email'])))
+    {
+       
+      header("Location:../../view/website/forget.php?error=1");
+    }
+    else if(!filter_var($_POST['email'],FILTER_VALIDATE_EMAIL))
+    {
+     
+
+         header("Location:../../view/website/forget.php?error=2");
+    }
+    
+    else
+    {   
+        $userControler->forget($_POST['email']);
+    }
+   
+
+}
+else if(isset($_POST['Reset'])){
+    if(empty($_POST['password']))
+    {
+        $errors['password']="password required";
+    }
+     if(empty($_POST['confirm_password']))
+    {
+        $errors['confirm_password']="confirm_password required";
+
+    }
+     if($_POST['password']!=$_POST['confirm_password'])
+    {
+        $errors['match']="password and confirm password donot match";
+
+        
+    }
+    if(count($errors)>0)
+    {
+
+        header("Location:../../view/website/reset.php?errors=".json_encode($errors));
+    }
+    else
+    {
+        
+        $userControler->reset($_POST['password'],$_POST['token']);
+    }
+}
+else if($_POST['confirm'])
+{
+    $userControler->confirm_code($_POST['code']);
 }
 ?>

@@ -20,50 +20,34 @@ class User{
     {
         $this->$key=$value;
     }
-    function  getUserData($email)
+    function  getUserData($cond=1)
     {
-        $stm=$this->conn->prepare("select * from users where email=?");
-        $stm->execute([$email]);
+        $stm=$this->conn->query("select * from users where $cond");
+        // $stm->execute([$cond]);
         $this->data=$stm->fetch(PDO::FETCH_ASSOC);
         return $this->data;
-        // $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
-        // $stmt->execute([$email]);
-        // $this->data = $stmt->fetch(PDO::FETCH_ASSOC);
-        // return $this->data;
+        
+    }
+    
+    function UpdateUserData($values,$email)
+    {
+        $sql=  "UPDATE users SET token = ? WHERE email=?";
+        //$sql="INSERT INTO users (token) VALUES ('{$values}')  WHERE $cond";
+         $stm = $this->conn->prepare($sql);
+         $stm->execute([$values,$email]);
+        
+    }
+    function reset_pass($value,$token)
+    {
+        $sql="update users set password= ? where token=?";
+        $stm = $this->conn->prepare($sql);
+        $stm->execute([$value,$token]);
+        header("Location:../../view/login.php");
     }
 
 
 }
 
-
-// class User{
-//   private $data;
-//   private $conn;
-//   function __construct( ) {
-//     $connObj=new Connection;   
-//     $this->conn=$connObj->getConnection();
-// }
-
-// function login($id)
-// {
-    
-//     $stm=$this->conn->query("select * from users where id=$id");
-//     $this->data=$stm->fetch(PDO::FETCH_ASSOC);
-//     if($this->data)
-//     {
-
-//           var_dump($this->data);
-//     }
-//     else 
-//     {
-//         header("Location:login.php?error=1");
-//     }
-// }   
-
-
-// }
-//  $a=new User;
-//  $a->login(2);
 
 
 ?>
