@@ -9,15 +9,16 @@ if(isset($_SESSION['user_id'])){
         unset($_SESSION['cart'][$_SESSION['user_id']][$product_id]);
     }
     $allCartInfo = $_SESSION['cart'][$_SESSION['user_id']];
-    $allRoom = $manualOrder->getAllRoom();
+    // $allRoom = $manualOrder->getAllRoom();
 
     if(isset($_POST['order'])){
+        $userInfo = $manualOrder->getUserById($_SESSION['user_id']);
         //insert in Order table
         $data['user_id'] = $_SESSION['user_id'];
         $data['total_per_order'] = $_POST['final_total'];
         $data['status'] = $manualOrder->orderModel::PROCESSING;
         $data['notes'] = $_POST['notes'];
-        $data['room_id'] = $_POST['room_id'];
+        $data['room_id'] = $userInfo['room_id'];
         $data['created_by'] = 'admin';
         //check if quantity is less than stock
         $error = $manualOrder->checkQuantityOfProductBeforePlaceOrder();
@@ -161,26 +162,6 @@ if(isset($_SESSION['user_id'])){
                                     <form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
                                         <input type="hidden" name="final_total" value="<?=$finalTotal?>"/>
                                         <div class="row">
-                                            <div class="col-lg-12 form-group">
-                                                <label class="text-small text-uppercase" for="">
-                                                    Choose Room
-                                                </label>
-                                                <select class="custom-select js-example-basic-multiple" name="room_id"
-                                                    required>
-                                                    <option selected disabled>
-                                                        Choose Room
-                                                    </option>
-                                                    <?php
-                                                    foreach ($allRoom as $room) {
-                                                        ?>
-                                                                <option value="<?=$room['id']?>">
-                                                                    <?= $room['name']?>
-                                                                </option>
-                                                                <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
                                             <div class="col-lg-12 form-group">
                                                 <label class="text-small text-uppercase" for="firstName">Notes</label>
                                                 <textarea class="form-control form-control-lg" id="firstName"

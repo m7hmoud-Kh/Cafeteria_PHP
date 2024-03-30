@@ -32,6 +32,10 @@ class ManualOrder{
         return $this->productModel->getAllProduct();
     }
 
+    public function getUserById($userId){
+        return $this->userModel->getUserById($userId);
+    }
+
     public function getAllRoom(){
         return $this->roomModel->getAllRoom();
     }
