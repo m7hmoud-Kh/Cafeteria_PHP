@@ -1,32 +1,58 @@
 <?php
-
+// require("./Connection.php");
 class Product {
-
-    public $con;
-    public function __construct()
-    {
-        $connection = new Connection();
-        $this->con = $connection->con;
+    private $host="localhost";
+    private $dbname="cofephp";
+    private $user="root";
+    private $password="";
+    private $connection;
+    
+      function __construct(){
+        $this->connection=new pdo("mysql:host=$this->host;dbname=$this->dbname",$this->user,$this->password);
+    
     }
 
-    public function getAllProduct()
-    {
-        $stmt = $this->con->prepare("SELECT * FROM products WHERE quantity > 0");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getProductById($id)
-    {
-        $stmt = $this->con->prepare('SELECT * FROM products WHERE id = ?');
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function decrementOfQuantity($data){
-        $stmt = $this->con->prepare('UPDATE products set quantity = ? where id = ?');
-        $stmt->execute([$data['quantity'],$data['product_id']]);
-
-    }
+function get_connection()
+{
+    return $this->connection;
+}
+function addProducts($productName, $price,$quantity,$image,$category_id){
+    $stmt=$this->connection->prepare('insert into products(name,price,quantity,image,category_id)  values(?,?,?,?,?)');
+    $stmt->execute(
+        [$productName, $price, $quantity, $image,$category_id]);
 
 }
+
+
+function getProductForPagination($pageLimit,$offset){
+    $data= $this->connection->query("select* from products limit $pageLimit offset $offset");
+    return $data->fetchAll(PDO::FETCH_ASSOC);
+}
+function getProduct($condition=1){
+    $result=$this->connection->query("select* from products where $condition");
+return $result->fetch(PDO::FETCH_ASSOC);
+}
+function deleteProductById($id){
+    $this->connection->query("delete from products where id=$id");
+}
+function updateProduct($values,$id){
+    $this->connection->query("update products set $values where id=$id");
+}
+
+function getNumberOfProducts() {
+    $result = $this->connection->query("select count(id) from products");
+    
+    if ($result) {
+        
+        $count = $result->fetchColumn();
+        return $count;
+    } else {
+        
+        return false;
+    }
+}
+}
+
+?>
+}
+?>

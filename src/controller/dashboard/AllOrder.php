@@ -11,7 +11,6 @@ class AllOrder{
 
     public $userModel;
     public $productModel;
-
     public $orderModel;
     public $orderProductModel;
     public $manualOrder;
