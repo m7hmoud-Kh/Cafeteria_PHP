@@ -9,6 +9,8 @@ require "./src/model/Order.php";
 require "./src/model/OrderProduct.php";
 require "./src/model/Room.php";
 
+require "./src/model/Connection.php";
+
 
 // require "../../model/Order.php";
 // require "../../model/OrderProduct.php";
@@ -86,9 +88,9 @@ if (isset($_POST['confirm_order'])) {
         // $orderOfUser = $order->getOrder("user_id={$_SESSION['userid']}");
         //========================================================================================================
 
-        $productOrder = new ProductOrder();
+        $productOrder = new OrderProduct();
         for ($i = 0; $i < count($productName); $i++) {
-            $productOrder->insertProductOrder($result, $indexArray[$i], $productQuantity[$i], $productPrice[$i]);
+            $productOrder->insert_Product_Order($result, $indexArray[$i], $productQuantity[$i], $productPrice[$i]);
         }
         ;
     }

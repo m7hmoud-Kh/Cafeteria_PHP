@@ -27,7 +27,7 @@ class Room{
     }
 
     
-    public function getAllRoom($cond = 1)
+    public function getAll_Room($cond = 1)
     {
         $this->connection = $this->connection->query("select * from rooms where $cond");
         return $this->connection->fetchAll(PDO::FETCH_ASSOC);

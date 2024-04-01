@@ -1,14 +1,16 @@
 <?php
-class Product {
+
+class Product
+{
 
     public $con;
     private $connection = "";
 
     public function __construct()
     {
-        $connection = new Connection();
-        $this->con = $connection->con;
-        $this->connection = $connection->con;
+        $connect = new Connection();
+        $this->con = $connect->con;
+        $this->connection = $connect->con;
 
 
     }
@@ -27,15 +29,16 @@ class Product {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function decrementOfQuantity($data){
+    public function decrementOfQuantity($data)
+    {
         $stmt = $this->con->prepare('UPDATE products set quantity = ? where id = ?');
-        $stmt->execute([$data['quantity'],$data['product_id']]);
+        $stmt->execute([$data['quantity'], $data['product_id']]);
 
     }
 
     public function getProducts($cond = 1)
     {
-        $this->connection = $this->connection->query("select * from products where $cond");
+        $this->connection = $this->connection->query("SELECT * FROM products WHERE quantity > 0");
         return $this->connection->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -58,6 +61,8 @@ class Product {
         $this->connection = $this->connection->query("SELECT * FROM products WHERE name LIKE '%%$word%%'");
         return $this->connection->fetchAll(PDO::FETCH_ASSOC);
     }
+
+   
 
 
 }

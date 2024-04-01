@@ -62,7 +62,7 @@ require "./src/controller/website/ProductController.php";
  
  //============================================= drop down for room ===============================
                     $room = new Room();
-                    $rooms = $room->getAllRoom();
+                    $rooms = $room->getAll_Room();
 
                     echo "<strong><label for='room' class='form-label'>Choose a room:</label></strong>";
                     echo "<select class='form-select' name='room' id='room'>";
