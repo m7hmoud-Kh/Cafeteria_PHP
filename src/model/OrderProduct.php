@@ -1,26 +1,41 @@
 <?php
 
-// require "Connection.php";
+class OrderProduct{
 
-class ProductOrder
-{
-
-
+    public $con;
     private $connection = "";
 
-    function __construct()
+    public function __construct()
     {
-        $this->connection = new Connection();
-        $this->connection = $this->connection->getConnection();
+        $connection = new Connection();
+        $this->con = $connection->con;
+        $this->connection =$connection->con;
     }
 
+    public function insertProductOrder($data){
+        $stmt = $this->con->prepare('INSERT INTO order_products (order_id,product_id,quantity,total) VALUES (?,?,?,?)');
+        $stmt->execute([
+            $data['order_id'],
+            $data['product_id'],
+            $data['quantity'],
+            $data['total_per_product']
+        ]);
+    }
+
+    public function getAllProductOfSpecificOrder($orderId){
+        $stmt = $this->con->prepare('SELECT * FROM order_products where order_id = ?');
+        $stmt->execute([$orderId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    
     public function getOrderProduct($cond = 1)
     {
         $this->connection = $this->connection->query("select * from order_products where $cond");
         return $this->connection->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function insertProductOrder($orderid, $productid, $quantity, $total)
+    public function insert_Product_Order($orderid, $productid, $quantity, $total)
     {
        
         $sql = "INSERT INTO order_products (order_id, product_id, quantity, total) VALUES (?, ?, ?, ?)";
@@ -38,8 +53,3 @@ class ProductOrder
     }
 
 }
-
-
-
-
-?>

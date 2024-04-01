@@ -1,15 +1,36 @@
 <?php
-require "Connection.php";
-class Product
-{
+class Product {
 
-
+    public $con;
     private $connection = "";
 
-    function __construct()
+    public function __construct()
     {
-        $this->connection = new Connection();
-        $this->connection = $this->connection->getConnection();
+        $connection = new Connection();
+        $this->con = $connection->con;
+        $this->connection = $connection->con;
+
+
+    }
+
+    public function getAllProduct()
+    {
+        $stmt = $this->con->prepare("SELECT * FROM products WHERE quantity > 0");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getProductById($id)
+    {
+        $stmt = $this->con->prepare('SELECT * FROM products WHERE id = ?');
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function decrementOfQuantity($data){
+        $stmt = $this->con->prepare('UPDATE products set quantity = ? where id = ?');
+        $stmt->execute([$data['quantity'],$data['product_id']]);
+
     }
 
     public function getProducts($cond = 1)
@@ -32,9 +53,6 @@ class Product
     }
 
 
-
-   
-
     public function search($word)
     {
         $this->connection = $this->connection->query("SELECT * FROM products WHERE name LIKE '%%$word%%'");
@@ -42,13 +60,4 @@ class Product
     }
 
 
-
-
 }
-
-// $product = new Product();
-// $data = $product->getProducts();
-// var_dump($data);
-
-
-?>

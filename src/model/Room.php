@@ -1,18 +1,24 @@
 <?php
+class Room{
 
-// require "Connection.php";
-
-class Room
-{
-
-
+    public $con;
     private $connection = "";
 
-    function __construct()
+    public function __construct()
     {
-        $this->connection = new Connection();
-        $this->connection = $this->connection->getConnection();
+        $connection = new Connection();
+        $this->con = $connection->con;
+        $this->connection = $connection->con;
+
     }
+
+    public function getAllRoom(){
+        $stmt = $this->con->prepare('SELECT * FROM rooms');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function getRoom($name)
     {
         $stmt = $this->connection->prepare("SELECT id FROM rooms WHERE name = ?");
@@ -29,10 +35,4 @@ class Room
 
 
 
-
 }
-
-
-
-
-?>

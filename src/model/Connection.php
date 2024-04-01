@@ -3,43 +3,45 @@
 class Connection
 {
 
-    private $databaseType = "mysql";
-    private $dbname = "cafephp";
-    private $host = "localhost";
-    private $userName = "root";
-    private $password = "";
+//     private $databaseType = "mysql";
+//     private $dbname = "cafephp";
+//     private $host = "localhost";
+//     private $userName = "root";
+//     private $password = "";
 
-    private $connection = "";
+//     private $connection = "";
 
-    function __construct()
+//     function __construct()
+//     {
+//         $this->connection = new PDO(
+//             "$this->databaseType:
+//             host=$this->host;dbname=$this->dbname",
+//             $this->userName,
+//             $this->password
+//         );
+//     }
+//     public function getConnection()
+//     {
+//         return $this->connection;
+//     }
+
+
+    private $servername = 'localhost';
+    private $username = 'root';
+    private $password = '';
+    private $db = 'cafephp';
+
+    public $con;
+
+    public function __construct()
     {
-        $this->connection = new PDO(
-            "$this->databaseType:
-            host=$this->host;dbname=$this->dbname",
-            $this->userName,
-            $this->password
-        );
-    }
-    public function getConnection()
-    {
-        return $this->connection;
+        try {
+            $this->con = new PDO("mysql:host=$this->servername;dbname=$this->db", $this->username, $this->password);
+            $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
     }
 }
 
-try {
 
-
-    // $connection = new Connection();
-    // $connection = $connection->getConnection();
-    // $data = $connection->query("select * from products");
-    // $data = $data->fetch(PDO::FETCH_ASSOC);
-    // echo $data['image'];
-    // echo "<img src='./../../gallery/{$data['image']}' width='80px'>";
-
-
-
-
-} catch (PDOException $e) {
-    echo $e->getMessage();
-}
-?>
