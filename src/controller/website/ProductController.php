@@ -2,10 +2,30 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <?php
 
+session_start();
+
 require "./src/model/Product.php";
+require "./src/model/Order.php";
+require "./src/model/OrderProduct.php";
+require "./src/model/Room.php";
+
+
+// require "../../model/Order.php";
+// require "../../model/OrderProduct.php";
+// require "../../model/Product.php";
+// require "../../model/Room.php";
+
+
+
+ $_SESSION['userid'] = 7; // THIS defoult and we will remove when ahmed combine with me 
+
+if (!isset($_SESSION['userid'])) {
+    header('Location:login.php');
+}
 
 $product = new Product();
 $data = $product->getProducts();
+
 
 if (isset($_POST['search'])) {
 
@@ -13,12 +33,12 @@ if (isset($_POST['search'])) {
     $data = $product->search($_POST['dataSearch']);
 
 } else if (isset($_POST[''])) {
-
     $data = $product->getProducts();
-
 }
 
-session_start();
+
+
+
 if (isset($_GET['id'])) {
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = array();
@@ -29,17 +49,51 @@ if (isset($_GET['id'])) {
     }
 }
 
+
 function clear_cart()
 {
-    // session_destroy();
     $_SESSION['cart'] = array();
 }
+
+
 if (isset($_POST['confirm_order'])) {
+    if (isset($_POST['productName']) && ($_POST['productQantity']) && $_SESSION['cart']) {
+
+        $productName = $_POST['productName'];
+        $productPrice = $_POST['productPrice'];
+        $productQuantity = $_POST['productQantity'];
+        $productid = $_SESSION['cart'];
+        $indexArray = array_values($productid); // i use this to can access by index not by key Gamila ya darsh
+
+        //========================================================================================================
+        $user_id = $_SESSION['userid']; // i must recive this from Ahmed kamal
+        $total = $_POST['total'];
+        $status = 1;
+        $notes = $_POST['notes'];
+
+        $room_id = new Room();
+        $room = $room_id->getRoom($_POST['room']);
+        $room = (int) $room['id'];
+
+        $order = new Order();
+        $result = $order->insertOrder($user_id, $total, $status, $notes, $room);
+        $result->execute();
+
+        $result = $order->getOrderid("user_id=" . $_SESSION['userid']);
+        $result = (int) $result['id'];
+
+
+        // $orderOfUser = $order->getOrder("user_id={$_SESSION['userid']}");
+        //========================================================================================================
+
+        $productOrder = new ProductOrder();
+        for ($i = 0; $i < count($productName); $i++) {
+            $productOrder->insertProductOrder($result, $indexArray[$i], $productQuantity[$i], $productPrice[$i]);
+        }
+        ;
+    }
 
     clear_cart();
     header("Location:index.php");
 }
-
-
 ?>
-
