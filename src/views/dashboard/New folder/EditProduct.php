@@ -5,8 +5,6 @@ if(isset($_GET['error'])){
   $error=json_decode($_GET['error'],true);
 
 }
-require("../../model/Connection.php");
-
 require ("../../model/Product.php");
 $products=new Product;
 $id=$_GET['id'];

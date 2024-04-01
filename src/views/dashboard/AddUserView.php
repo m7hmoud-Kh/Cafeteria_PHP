@@ -3,16 +3,21 @@
 $error=[];
 if(isset($_GET['error'])){
   $error=json_decode($_GET['error'],true);
-
+    
 }
+require("../../model/Room.php");
+  require("../../model/Connection.php");
+  require("../../model/User.php");      
 
+  $data=new Room;
+  $rooms=$data->getAllRooms();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -52,15 +57,15 @@ if(isset($_GET['error'])){
         <div style="width:100%; " class="min-vh-100   col-6 d-flex  justify-content-center align-items-center" >
   <form method="post" class="col-lg-6 " action="../../controller/dashboard/UserControlar.php" enctype="multipart/form-data">
     <div class="form-group ">
-      <label for="exampleInputName">Name</label>
+      <label for="username">Name</label>
       <input type="text" class="form-control" id="username" aria-describedby="nameHelp" name="username" >
       <small class="text-danger" ><?php if(isset($error['$username'])){
         echo $error['$username'];
       } ?></small>
     </div>
     <div class="">
-      <label for="exampleInputEmail">Email</label>
-      <input type="email" class="form-control" id="exampleInputEmail" name="email" >
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" name="email" >
       <small class="text-danger" ><?php if(isset($error['$email'])){
         echo $error['$email'];
       } ?></small>
@@ -69,8 +74,8 @@ if(isset($_GET['error'])){
       } ?></small>
     </div>
     <div class="">
-      <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" name="password" >
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" >
     </div>
     <div class="">
       <label for="exampleInputPassword1">Confirm Password</label>
@@ -79,21 +84,30 @@ if(isset($_GET['error'])){
         echo $error['$password'];
       } ?></small>
     </div>
-    <div class="">
-      <label for="exampleInputRomeNumber">Rome Number</label>
-      <input type="text" class="form-control" id="exampleInputRomeNumber" name="name" >
-      <small class="text-danger" ><?php if(isset($error['$name'])){
-        echo $error['$name'];
-      } ?></small>
-    </div>
+
+    
+      <select name="room" class="form-control custom-select js-example-multiple" id="room">
+      <?php
+        foreach($rooms as $room){?>
+        <option value="<?php  echo $room['id'];?>"><?php echo $room['name'];?></option>
+        <?php }?>
+      </select> 
+
+     <!-- <select name="category" class="form-control custom-select js-example-multiple" id="category">
+    <?php foreach($rooms as $room): ?>
+        <option  value="<?php echo $room['name']; ?>"><?php echo $room['name']; ?></option>
+    <?php endforeach; ?> 
+</select>  -->
+
+    
     <div>
-    <label for="photo">Choose a photo:</label>
+    <label for="image">Choose a photo:</label>
     <?php if(isset($error['$image'])){
         echo $error['$image'];
       } ?>
-    <input type="file" id="photo" name="image" accept="image/*">
+    <input class="my-sm-4" type="file" id="image" name="image" accept="image/*">
     </div>
-      <button type="submit " class="btn btn-primary my-sm-2 ">Save</button>
+      <button name="addUser" type="submit " class="btn btn-primary my-sm-2 ">Save</button>
 
       <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
     

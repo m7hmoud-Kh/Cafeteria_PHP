@@ -1,14 +1,15 @@
 <?php
 require("../../model/User.php");
-
-
-$Users=new User;
+require("../../model/Category.php");
+require("../../model/Connection.php");
+var_dump($_POST);
+$id=$_POST['id'];
+$users=new User;
 $username=validation($_POST['username']);
 $email=validation($_POST['email']);
 $password=validation($_POST['password']);
-$RoomName=validation($_POST['name']);
+$room_id=validation($_POST['name']);
 $Cpassword=validation($_POST['cpassword']);
-
 $error=[];
 if(strlen($username)<3)
 {
@@ -25,7 +26,7 @@ if(!filter_var($email,FILTER_VALIDATE_EMAIL))
 $error['$email']="Invalid email";
 
 }
-$result=$Users->get_user("email='$email'");
+$result=$users->get_user("email='$email'");
 
     if($result)
     {
@@ -34,7 +35,7 @@ $result=$Users->get_user("email='$email'");
     }
 
 
-if(strlen($RoomName)==0){
+if(strlen($room_id)==0){
     $error['$name']="Enter the number of the room";
 }
 if($_FILES['image']['size']>100000) {
@@ -51,18 +52,35 @@ else
 }
 
 
+
 if(count($error)>0)
 {
+    if(isset( $_POST['addUser']))
+    {
+        header("location:../../views/dashboard/AddUserView.php?error=".json_encode($error));
+        
+    }
+    if(isset($_POST['updateUser']))
+    {
+        header("location:../../views/dashboard/EditUser.php?error=".json_encode($error),$id);
 
-    header("location:../../views/dashboard/AddUserView.php?error=".json_encode($error));
+    }
 }
-else{
+if(isset( $_POST['updateUser'])) {
+    //$users=new User;
+$password=$_POST['password'];
+$passwordHash = password_hash($password, PASSWORD_BCRYPT);
+$users->updateUser("
+username='{$_POST['username']}',
+email='{$_POST['email']}',
+password='$passwordHash'
+",$id);
+header("location:../../views/dashboard/AllUser.php");
+}
+if(isset( $_POST['addUser']) ){
     $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-    
     try {
-        $Users->add_user($username,$email,$passwordHash,$image);
-        $Users->add_room("name","$RoomName");
-
+        $users->add_user($username,$email,$room_id,$passwordHash,$image);
         header("location:../../views/dashboard/AllUser.php");
     } catch (PODException $th) {
         echo $th->getMessage();
@@ -70,6 +88,7 @@ else{
     }
 
 }
+
 
 
 function validation($data)

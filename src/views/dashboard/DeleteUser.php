@@ -1,5 +1,6 @@
 <?php
 require ("../../model/User.php");
+require("../../model/Connection.php");
 
 
 $users=new User;

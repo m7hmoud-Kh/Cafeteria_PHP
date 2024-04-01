@@ -10,7 +10,12 @@
 </head>
 <body>
 <?php
-require ("../../model/UserModel.php");
+require ("../../model/User.php");
+require("../../model/Connection.php");
+$error=[];
+if(isset($_GET['error'])){
+  $error=json_decode($_GET['error'],true);
+}
 $users=new User;
 $id=$_GET['id'];
 $data=$users->get_user($id);
@@ -20,7 +25,7 @@ $data=$users->get_user($id);
           <h1 class="text-primary">Update User</h1>
 
 <div style="width:100%; " class="min-vh-100   col-6 d-flex  justify-content-center align-items-center" >
-  <form method="post" class="col-lg-6 " action="../../views/dashboard/UpdateUser.php" enctype="multipart/form-data">
+  <form method="post" class="col-lg-6 " action="../../controller/dashboard/UserControlar.php" enctype="multipart/form-data">
     <div class="form-group ">
     <input type="hidden" id="fname" value="<?php echo $data['id']?>" name="id"><br><br>
       <label for="exampleInputName">Name</label>
@@ -64,7 +69,7 @@ $data=$users->get_user($id);
       } ?>
     <input type="file" id="photo" value="<?php echo $data['image']?>" name="image" accept="image/*">
     </div>
-      <button type="submit " class="btn btn-primary my-sm-2 ">Save</button>
+      <button name="updateUser" type="submit " class="btn btn-primary my-sm-2 ">Update</button>
 
       <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
     

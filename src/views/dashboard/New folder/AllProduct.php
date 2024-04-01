@@ -36,55 +36,48 @@
             </nav>
           </div>
     <div class="d-flex justify-content-between my-sm-4">
-        <h1>All Users</h1>
-        <a class="w-0 h-25 btn btn-primary" href="../../views/dashboard/AddUserView.php">add user</a>
+        <h1>All Products</h1>
+        <a class="w-0 h-25 btn btn-primary" href="../../views/dashboard/AddProduct.php">add product</a>
     </div>
     <table class="table  table-hover my-lg-4 table-sm  justify-content-center">
     <thead >
         <th  scope="col">Id</th>
         <th  scope="col">Name </th>
-        <th  scope="col">Email</th>
-        <th scope="col" >Is admin</th>
-        <th  scope="col">room_id</th>
-        <th  scope="col">Image</th>
+        <th  scope="col">Price</th>
+        <th  scope="col">quantity</th>
+        <th scope="col" >Image</th>
+        <th  scope="col">categoryId</th>
         <th  scope="col">Created_at</th>
         <th  scope="col">Action</th>
         <tr>
         </thead>
 
         <?php
-require("../../model/User.php");
+require("../../model/Product.php");
 require_once("../../controller/dashboard/pagination.php");
-      require("../../model/Connection.php");
-
 //for pagination///
-$result=new User();
-$totalNumberOfUsers=$result->getNumberOfUsers();
+$result=new Product();
+$totalNumberOfProducts=$result->getNumberOfProducts();
 
 $page=(isset($_GET['page']))?(int) $_GET['page'] : 1; 
 $pageLimit=3;
-$pagesNumber=ceil($totalNumberOfUsers / $pageLimit);
+$pagesNumber=ceil($totalNumberOfProducts / $pageLimit);
 $offset=($page-1)*$pageLimit;
-if(!$totalNumberOfUsers)
-{
-  $error['users']="there is no users to list pleas add user to list";
-  header("location:../../views/dashboard/AddUserView.php?error=".json_encode($error));
 
-}
 if(!validationPage($page,$pagesNumber))
 {
     header("location:".$_SERVER['PHP_SELF']."?page=1");
 }
 
-$users=$result->getUsersForPagination($pageLimit,$offset);
+$products=$result->getProductForPagination($pageLimit,$offset);
 
 echo "<pre>";
 
-        foreach($users as $user)
+        foreach($products as $product)
         {
             echo "<tbody>";
             echo "<tr>";
-            foreach($user as $key=>$data){
+            foreach($product as $key=>$data){
               if($key=='image')
               {
                   echo "<td><img src='.../../img/$data' width='50' hight='50'></td>";
@@ -98,8 +91,9 @@ echo "<pre>";
               }
 
             echo "<td>
-            <a class='btn btn-primary' href= ' EditUser.php?id={$user['id']}'>edit</a>
-            <a class='btn btn-danger' href='DeleteUser.php?id={$user['id']}'>delete</a>
+            <a class='btn btn-primary' href= ' EditUser.php?id={$product['id']}'>available</a>
+            <a class='btn btn-primary' href= ' EditProduct.php?id={$product['id']}'>edit</a>
+            <a class='btn btn-danger' href='DeleteProduct.php?id={$product['id']}'>delete</a>
             </td>";
 
             echo "</tr>";

@@ -5,7 +5,11 @@ if(isset($_GET['error'])){
   $error=json_decode($_GET['error'],true);
 
 }
-
+require("../../model/Connection.php");
+require("../../model/Category.php");
+      
+$data=new Category;
+$categories=$data->get_category();
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +54,9 @@ if(isset($_GET['error'])){
           <h1 class="text-primary">AddProduct</h1>
 
         <div style="width:100%; " class="min-vh-100   col-6 d-flex  justify-content-center align-items-center" >
-  <form method="post" class="col-lg-6 " action="../../controller/dashboard/Product.php" enctype="multipart/form-data">
+  
+        <form method="post" class="col-lg-6 " action="../../controller/dashboard/Product.php" enctype="multipart/form-data">
+        event.preventDefault();
     <div class="form-group ">
       <label for="exampleInputName">Product Name</label>
       <input type="text" class="form-control" id="username" aria-describedby="nameHelp" name="productName" >
@@ -67,20 +73,31 @@ if(isset($_GET['error'])){
         echo $error['$price'];
       } ?></small>
 </div>
+    <div class="form-outline" style="width: 22rem;">
+      <label  class="form-label" for="form1">Enter the Quantity</label>
+    <i class="fas fa-dollar-sign trailing"></i>
+    <input type="number" id="form1" name="quantity" class="form-control form-icon-trailing" />
+    <small class="text-danger" ><?php if(isset($error['$price'])){
+        echo $error['$price'];
+      } ?></small>
+</div>
 
 
 
 
   <div class=" form-group">
     <label for="category">Choose Category:</label>
-    <a href="">add category</a>
-    <select name="category" class="form-control" id="cars">
-      <option value="Hot drink">Hot drink</option>
-      <option value="juices">juices</option>
-      <option value="Soda water">Soda water</option>
-      <small class="text-danger" ><?php if(isset($error['$category'])){
-        echo $error['$category'];
-      } ?></small>
+    <a href="../../views/dashboard/AddCategory.php">add category</a>
+    </select>
+    <select name="category" class="form-control my-sm-3" id="category">
+      <?php
+      foreach($categories as $category){
+      ?>
+      <option name="name" value=<?php echo $category['id']?>><?php echo $category['name']?></option>
+      <?php
+      // <?=$category['id']
+      }
+      ?>
     </select>
   </div>
     <div>

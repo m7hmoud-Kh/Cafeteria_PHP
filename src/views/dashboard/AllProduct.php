@@ -53,6 +53,8 @@
         </thead>
 
         <?php
+        require("../../model/Connection.php");
+
 require("../../model/Product.php");
 require_once("../../controller/dashboard/pagination.php");
 //for pagination///
@@ -91,7 +93,7 @@ echo "<pre>";
               }
 
             echo "<td>
-            <a class='btn btn-primary' href= ' EditUser.php?id={$product['id']}'>available</a>
+            <a class='btn btn-primary' href= ' EditUser.php?id={$product['id']}'>'<>'</a>
             <a class='btn btn-primary' href= ' EditProduct.php?id={$product['id']}'>edit</a>
             <a class='btn btn-danger' href='DeleteProduct.php?id={$product['id']}'>delete</a>
             </td>";

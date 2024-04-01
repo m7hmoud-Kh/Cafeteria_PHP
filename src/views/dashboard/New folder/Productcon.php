@@ -1,22 +1,21 @@
 
 
 <?php
-var_dump($_POST);
+var_dump($_POST['productName']);
 require("../../model/Product.php");
-require("../../model/Connection.php");
 
 
 $Products=new Product;
 $productName=validation($_POST['productName']);
 $Price=validation($_POST['price']);
-$quantity=validation($_POST['quantity']);
+
 
 $error=[];
 if(strlen($productName)<3)
 {
     $error['$productName']="The user name must be more than two character";
 }
-if(strlen($Price)===0)
+if(strlen($Price)==0)
 {
     $error['$password']="Pleas enter the price";
 }
@@ -40,14 +39,18 @@ else
 
     $image=$_FILES['image']["name"];
     move_uploaded_file($from,"../../views/dashboard/ProductImage/".$image);
+
 }
+
+
 if(count($error)>0)
 {
+
     header("location:../../views/dashboard/AddProduct.php?error=".json_encode($error));
 }
 else{    
-    $category_id=2;
-    
+    $category_id=1;
+    $quantity=5;
     try {
         $Products->addProducts($_POST['productName'],$_POST['price'],$quantity,$image,$category_id,);
         header("location:../../views/dashboard/AllProduct.php");
@@ -55,6 +58,7 @@ else{
         echo $th->getMessage();
         header("location:".$_SERVER['PHP_SELF']."?errors=");
     }
+
 }
 function validation($data)
 {

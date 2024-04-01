@@ -1,6 +1,5 @@
 <?php
 require ("../../model/Product.php");
-require("../../model/Connection.php");
 
 var_dump($_POST);
 
