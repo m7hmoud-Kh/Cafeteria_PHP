@@ -1,12 +1,16 @@
 <?php
-
 class Product {
 
     public $con;
+    private $connection = "";
+
     public function __construct()
     {
         $connection = new Connection();
         $this->con = $connection->con;
+        $this->connection = $connection->con;
+
+
     }
 
     public function getAllProduct()
@@ -28,5 +32,32 @@ class Product {
         $stmt->execute([$data['quantity'],$data['product_id']]);
 
     }
+
+    public function getProducts($cond = 1)
+    {
+        $this->connection = $this->connection->query("select * from products where $cond");
+        return $this->connection->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function selectBasedCondetion($cond = '')
+    {
+        $statement = $this->connection->prepare("SELECT * FROM products WHERE $cond");
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getCategoryName($id)
+    {
+        $this->connection = $this->connection->query("select name from categories where id=$id");
+        return $this->connection->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public function search($word)
+    {
+        $this->connection = $this->connection->query("SELECT * FROM products WHERE name LIKE '%%$word%%'");
+        return $this->connection->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 }
