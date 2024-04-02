@@ -87,31 +87,14 @@ $data=$products->getProduct($id);
         echo $error['$price'];
       } ?></small>
 </div>
-
-
 <select name="category_id" class="form-control my-sm-3" id="category">
       <?php
       foreach($categories as $category){
       ?>
       <option value=<?php echo $category['id']?>><?php echo $category['name']?></option>
-      <?php
-      // <?=$category['id']
-      }
+      <?php      }
       ?>
     </select>
-
-  <!-- <div class=" form-group">
-    <label for="category">Choose Category:</label>
-    <a href="">add category</a>
-    <select name="category" class="form-control" id="cars">
-      <option value="Hot drink">Hot drink</option>
-      <option value="juices">juices</option>
-      <option value="Soda water">Soda water</option>
-      <small class="text-danger" ><?php if(isset($error['$category'])){
-        echo $error['$category'];
-      } ?></small>
-    </select>
-  </div> -->
     <div>
     <label for="photo">Choose a photo:</label>
     <?php if(isset($error['$image'])){
@@ -121,16 +104,12 @@ $data=$products->getProduct($id);
     </div>
       <button type="submit " class="btn btn-primary my-sm-2 ">Save</button>
       <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
-    
   </form>
 </div>
 </div>
   </div>
-        
-        
-      </div>
 
-      
+      </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

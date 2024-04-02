@@ -87,7 +87,7 @@ $categories=$data->get_category();
   <div class=" form-group">
     <label for="category">Choose Category:</label>
     <a href="../../views/dashboard/AddCategory.php">add category</a>
-    </select>
+    
     <select name="category_id" class="form-control my-sm-3" id="category">
       <?php
       foreach($categories as $category){

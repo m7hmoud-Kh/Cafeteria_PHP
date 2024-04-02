@@ -28,12 +28,27 @@ class Category {
     }
 function deleteCategoryById($id){
     
-        $this->con->query("delete from categories where id=$id");
+        $this->con->query("delete from categories where id= $id");
     
 }
 public function updateCategory($values,$id){
     $this->con->query("update categories set $values where  id= $id");
 
+}
+function getCategoriesPagination($pageLimit,$offset){
+    $data= $this->con->query("select* from categories limit $pageLimit offset $offset");
+    return $data->fetchAll(PDO::FETCH_ASSOC);
+}
+function getNumberOfCategories() {
+    $result = $this->con->query("select count(id) from categories");
+    
+    if ($result) {
+        
+        $count = $result->fetchColumn();
+        return $count;
+    } else {
+        return false;
+    }
 }
 }
 

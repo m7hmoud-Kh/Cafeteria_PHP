@@ -29,14 +29,19 @@ $rooms=$result-> getRoomById($id);
           <label for="exampleInputName">Room name</label>
 
           <input value="<?php echo $rooms[0]['name']?>"  type="text" class="form-control" id="name"  name="name" >
-      
+          <small class="text-danger" ><?php if(isset($error['$name'])){
+        echo $error['$name'];
+      } ?></small>
+       <small class="text-danger" ><?php if(isset($error['$name'])){
+        echo $error['$name'];
+      } ?></small>
       </div>
     
         <input type="hidden" id="name" value="<?php echo $rooms[0]['id']?>" name="id"><br>
       <div>
 
       <button type="submit " class="btn btn-primary my-sm-2 ">Update</button>
-      <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
+      <input  class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
   
       </div>
   </form>

@@ -10,7 +10,7 @@ $Products=new Product;
 $productName=validation($_POST['productName']);
 $Price=validation($_POST['price']);
 $quantity=validation($_POST['quantity']);
-
+$category_id= $_POST['category_id'];
 $error=[];
 if(strlen($productName)<3)
 {
@@ -46,11 +46,11 @@ if(count($error)>0)
     header("location:../../views/dashboard/AddProduct.php?error=".json_encode($error));
 }
 else{    
-    $category_id=$_POST['../../model/Connection.php'];
+    // $category_id=$_POST['../../model/Connection.php'];
     
     try {
-        $Products->addProducts($_POST['productName'],$_POST['price'],$quantity,$image,$category_id,);
-        //header("location:../../views/dashboard/AllProduct.php");
+        $Products->addProducts($productName,$Price,$quantity,$image,$category_id);
+        header("location:../../views/dashboard/AllProduct.php");
     } catch (PODException $th) {
         echo $th->getMessage();
         header("location:".$_SERVER['PHP_SELF']."?errors=");

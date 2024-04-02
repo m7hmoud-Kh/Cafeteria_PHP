@@ -25,7 +25,11 @@ if(isset($_GET['error'])){
       <small class="text-danger" ><?php if(isset($error['$name'])){
         echo $error['$name'];
       } ?></small>
+      <small class="text-danger" ><?php if(isset($error['$ExistName'])){
+        echo $error['$ExistName'];
+      } ?></small>
     </div>
+    
     <button type="submit " class="btn btn-primary my-sm-2 ">Save</button>
       <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
     

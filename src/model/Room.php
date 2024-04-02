@@ -7,6 +7,10 @@ class Room{
         $connection = new Connection();
         $this->con = $connection->con;
     }
+    public function getRoomsPagination($pageLimit,$offset){
+        $data= $this->con->query("select* from rooms limit $pageLimit offset $offset");
+        return $data->fetchAll(PDO::FETCH_ASSOC);
+    }
 public  function getRoomById($id)
 {
     $cat = $this->con->query("select* from categories where id= $id");
@@ -19,7 +23,7 @@ public  function getRoomById($id)
     }
 
     public function addRoom($room){
-        $cat=$this->con->prepare('insert into categories(name)  values(?)');
+        $cat=$this->con->prepare('insert into rooms(name)  values(?)');
         $cat->execute([$room]);
     
     }
@@ -31,6 +35,22 @@ public  function getRoomById($id)
 public function updateRoom($values,$id){
     $this->con->query("update categories set $values where  id= $id");
 
-}
 
 }
+
+ public function getNumberOfRooms() {
+    $result = $this->con->query("select count(id) from rooms");
+    
+    if ($result) {
+        
+        $count = $result->fetchColumn();
+        return $count;
+    } else {
+        return false;
+    }
+}
+}
+// public function getRoomByName($name){
+//     $this->con->query("select* from rooms where name= $name");
+// }
+

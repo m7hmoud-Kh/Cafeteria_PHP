@@ -35,7 +35,7 @@ function delete_user($id){
     $this->con->query("delete from users where id=$id");
 }
 function updateUser($values,$id){
-    $this->con->query("update users set $values where id=$id");
+    $this->con->query("update users set $values where id= $id");
 }
 
 function getNumberOfUsers() {

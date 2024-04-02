@@ -37,7 +37,7 @@ function validation($data)
 }
  else{
     $categories->addCategory($category);
-    header("location:../../views/dashboard/AddProduct.php");
+    header("location:../../views/dashboard/AllCategory.php");
 
  }
 ?>

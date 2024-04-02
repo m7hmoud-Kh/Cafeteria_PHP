@@ -3,6 +3,8 @@ require("../../model/User.php");
 require("../../model/Category.php");
 require("../../model/Connection.php");
 
+    
+
 var_dump($_POST);
 $users=new User;
 $username=validation($_POST['username']);
@@ -51,59 +53,73 @@ else
         
     
 }
-function validErrorForUpdateUser($error)
-{
+// function validErrorForUpdateUser($error)
+// {
     
+    
+//     if(count($error)>0)
+//         {
+//             $id=$_SESSION["id"]; 
+            
+//             header("Location:../../views/dashboard/EditUser.php?error=".json_encode($error),$id);
+            
+//         }
+    
+// }
+// $result=$users->get_user("email='$email'");
+
+//     if($result)
+//     {
+//         $error['$existEmail']="email is exist";
+
+//     }
+
+function validErrorForAddUser($error,)
+{
     
     if(count($error)>0)
-        {
-            
-            
-            header("Location:../../views/dashboard/EditUser.php?error=".json_encode($error),$id);
-            
-        }
-    
-}
-// function validErrorForAddUser($error)
-// {
-//     if(count($error)>0)
-//     {
-//         header("location:../../views/dashboard/AddUserView.php?error=".json_encode($error));
+    {
+        header("location:../../views/dashboard/AddUserView.php?error=".json_encode($error));
         
-//     }
-// }
-function geterror($err)
-{
-    if(isset( $_POST['updateUser'])) {
-        validErrorForUpdateUser($err);
     }
-        else{
-            $users->updateUser("
-            username='{$_POST['username']}',
-            email='{$_POST['email']}',
-            password='$password',
-            room_Id='$room_id'
-            ",$id);
-            header("location:../../views/dashboard/AllUser.php");
-        }
+}
+// function updateUse($err,$use)
+// {
+//     validErrorForUpdateUser($err);
 
+//             $use->updateUser("
+//             username='{$_POST['username']}',
+//             email='{$_POST['email']}',
+//             password='$password',
+//             room_Id='$room_id'
+//             ",$id);
+//             header("location:../../views/dashboard/AllUser.php");
+        
+// }
+       
+
+function addUser($err){
+    validErrorForAddUser($err);
+    $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+    try {
+        $users->add_user($username,$email,$room_id,$passwordHash,$image);
+        header("location:../../views/dashboard/AllUser.php");
+    } catch (PODException $th) {
+        echo $th->getMessage();
+        header("location:".$_SERVER['PHP_SELF']."?errors=");
+    }
+}
+if(isset( $_POST['addUser']) ){
+    
+    addUser($error);
+
+}
+if(isset( $_POST['updateUser']) ){
+    
+    updateUse($error,$users);
 
 }
 
-geterror($error);
-
-// if(isset( $_POST['addUser']) ){
-//     validErrorForAddUser($error);
-//     $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-//     try {
-//         $users->add_user($username,$email,$room_id,$passwordHash,$image);
-//         header("location:../../views/dashboard/AllUser.php");
-//     } catch (PODException $th) {
-//         echo $th->getMessage();
-//         header("location:".$_SERVER['PHP_SELF']."?errors=");
-//     }
-
-// }
 
 
 
@@ -116,4 +132,8 @@ function validation($data)
     return $data;
 
 }
+
+
+
+
 ?>

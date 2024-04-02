@@ -5,20 +5,23 @@ require("../../model/Product.php");
 $rooms=new Room;
 $room=validation($_POST['name']);
 var_dump($room);
+
 $error=[];
 if(strlen($room)<3)
 {
     $error['$name']="The room name must be more than two character";
 }
+
+
 if(strlen($room)==0)
 {
-    $error['$password']="Pleas enter the room";
+    $error['$name']="Pleas enter the room";
 }
 $result=$rooms->getAllRooms("name='$room'");
 
     if($result)
     {
-        $error['$name']=" the name is exist";
+        $error['$ExistName']=" the name is exist";
 
     }
 
