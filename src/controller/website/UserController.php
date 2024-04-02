@@ -1,7 +1,6 @@
 <?php
 session_start();
 require '../../model/User.php';
-// require '../../../vendor/autoload.php'; // Include PHPMailer autoloader
 require '../../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require '../../../vendor/phpmailer/phpmailer/src/SMTP.php';
 require '../../../vendor/phpmailer/phpmailer/src/Exception.php';
@@ -32,20 +31,24 @@ class UserController
     }
     function login($email,$pass)
     {
-        //var_dump($email);
          $this->flag=$this->userModel->getUserData("email='{$email}'");
-        // var_dump($this->flag);
         $HashedPass=$this->flag['password'];
          if($this->flag && password_verify($pass,$HashedPass))
          {
-                //$_SESSION['username']=$this->flag['username'];
-                //$_SESSION['user_id']=$this->flag['id'];
-                setcookie("username",$this->flag['username']);
-                setcookie("user_id",$this->flag['id']);
+                $_SESSION['username']=$this->flag['username'];
+                $_SESSION['user_id']=$this->flag['id'];
+                $_SESSION['email']=$this->flag['email'];
+                $_SESSION['is_admin']=$this->flag['is_admin'];
+                $_SESSION['room_id']=$this->flag['room_id'];
+                $_SESSION['user_image']=$this->flag['image'];
+                
 
-                // check pass
-                //echo $this->flag['password'];
-                 echo "welcome ".$this->flag['username'];
+                //setcookie("username",$this->flag['username']);
+                //setcookie("user_id",$this->flag['id']);
+                
+                header("Location:../../view/website/welcome.php");
+                
+                
                  // render to list product page on mostafa code 
 
             

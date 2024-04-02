@@ -22,27 +22,44 @@ class User{
     }
     function  getUserData($cond=1)
     {
-        $stm=$this->conn->query("select * from users where $cond");
-        // $stm->execute([$cond]);
-        $this->data=$stm->fetch(PDO::FETCH_ASSOC);
-        return $this->data;
+        try{
+
+            $stm=$this->conn->query("select * from users where $cond");
+            $this->data=$stm->fetch(PDO::FETCH_ASSOC);
+            // $stm->execute([$cond]);
+            return $this->data;
+        }catch(PDOException $e)
+        {
+            echo "Error retrieving user data: ".$e->getMessage();
+
+        }
         
     }
     
     function UpdateUserData($values,$email)
     {
-        $sql=  "UPDATE users SET token = ? WHERE email=?";
+       try{
+         $sql=  "UPDATE users SET token = ? WHERE email=?";
         //$sql="INSERT INTO users (token) VALUES ('{$values}')  WHERE $cond";
          $stm = $this->conn->prepare($sql);
          $stm->execute([$values,$email]);
-        
+       }catch(PDOException $e)
+       {
+        echo "Error updating user data: " . $e->getMessage();
+       }
     }
     function reset_pass($value,$token)
     {
-        $sql="update users set password= ? where token=?";
+
+       try{
+         $sql="update users set password= ? where token=?";
         $stm = $this->conn->prepare($sql);
         $stm->execute([$value,$token]);
         header("Location:../../view/login.php");
+       }catch(PDOException $e)
+       {
+        echo "Error resetting password: " . $e->getMessage();
+       }
     }
 
 
