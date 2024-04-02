@@ -1,6 +1,7 @@
 <?php
 require("../../model/Category.php");
 require("../../model/Connection.php");
+require("../../model/Product.php");
 $categories=new Category;
 $category=validation($_POST['name']);
 var_dump($category);

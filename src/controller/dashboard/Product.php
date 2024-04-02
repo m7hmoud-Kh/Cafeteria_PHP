@@ -46,11 +46,11 @@ if(count($error)>0)
     header("location:../../views/dashboard/AddProduct.php?error=".json_encode($error));
 }
 else{    
-    $category_id=2;
+    $category_id=$_POST['../../model/Connection.php'];
     
     try {
         $Products->addProducts($_POST['productName'],$_POST['price'],$quantity,$image,$category_id,);
-        header("location:../../views/dashboard/AllProduct.php");
+        //header("location:../../views/dashboard/AllProduct.php");
     } catch (PODException $th) {
         echo $th->getMessage();
         header("location:".$_SERVER['PHP_SELF']."?errors=");

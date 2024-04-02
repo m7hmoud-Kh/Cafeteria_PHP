@@ -5,11 +5,16 @@ if(isset($_GET['error'])){
   $error=json_decode($_GET['error'],true);
 
 }
-require("../../model/Connection.php");
 
+require("../../model/Connection.php");
 require ("../../model/Product.php");
+
+require("../../model/Category.php");
+$data=new Category;
+$categories=$data->get_category();
 $products=new Product;
 $id=$_GET['id'];
+
 $data=$products->getProduct($id);
 ?>
 
@@ -74,11 +79,28 @@ $data=$products->getProduct($id);
         echo $error['$price'];
       } ?></small>
 </div>
+    <div class="form-outline" style="width: 22rem;">
+      <label   class="form-label" for="form1">Enter the quantity</label>
+    <i class="fas fa-dollar-sign trailing"></i>
+    <input  value="<?php echo $data['price']?>"type="number" id="form1" name="quantity" class="form-control form-icon-trailing" />
+    <small class="text-danger" ><?php if(isset($error['$price'])){
+        echo $error['$price'];
+      } ?></small>
+</div>
 
 
+<select name="category_id" class="form-control my-sm-3" id="category">
+      <?php
+      foreach($categories as $category){
+      ?>
+      <option value=<?php echo $category['id']?>><?php echo $category['name']?></option>
+      <?php
+      // <?=$category['id']
+      }
+      ?>
+    </select>
 
-
-  <div class=" form-group">
+  <!-- <div class=" form-group">
     <label for="category">Choose Category:</label>
     <a href="">add category</a>
     <select name="category" class="form-control" id="cars">
@@ -89,7 +111,7 @@ $data=$products->getProduct($id);
         echo $error['$category'];
       } ?></small>
     </select>
-  </div>
+  </div> -->
     <div>
     <label for="photo">Choose a photo:</label>
     <?php if(isset($error['$image'])){

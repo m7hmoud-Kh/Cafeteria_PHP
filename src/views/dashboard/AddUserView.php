@@ -86,7 +86,7 @@ require("../../model/Room.php");
     </div>
 
     
-      <select name="room" class="form-control custom-select js-example-multiple" id="room">
+      <select name="room_id" class="form-control custom-select js-example-multiple" id="room">
       <?php
         foreach($rooms as $room){?>
         <option value="<?php  echo $room['id'];?>"><?php echo $room['name'];?></option>
@@ -100,13 +100,20 @@ require("../../model/Room.php");
 </select>  -->
 
     
-    <div>
+    <!-- <div class="form-group">
     <label for="image">Choose a photo:</label>
     <?php if(isset($error['$image'])){
         echo $error['$image'];
       } ?>
-    <input class="my-sm-4" type="file" id="image" name="image" accept="image/*">
-    </div>
+    <input  class="form-control" type="file" id="image" name="image" accept="image/*">
+    </div> -->
+    <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file" class="form-control" id="image"accept="image/* name="image" >
+        <?php if(isset($error['$image'])){
+        echo $error['$image'];
+      } ?>
+</div>
       <button name="addUser" type="submit " class="btn btn-primary my-sm-2 ">Save</button>
 
       <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">

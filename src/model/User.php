@@ -2,7 +2,7 @@
 
 class User {
  public 
-      function __construct(){
+    function __construct(){
         //$this->connection=new pdo("mysql:host=$this->host;dbname=$this->dbname",$this->user,$this->password);
         $connection = new Connection();
         $this->con = $connection->con;
@@ -27,8 +27,8 @@ function getUsersForPagination($pageLimit,$offset){
         return 0;
      }
 }
-function get_user($condition=1){
-    $result=$this->con->query("select* from users where $condition");
+function get_user($id){
+    $result=$this->con->query("select* from users where id=$id");
    return $result->fetch(PDO::FETCH_ASSOC);
 }
 function delete_user($id){

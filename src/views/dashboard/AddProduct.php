@@ -56,7 +56,6 @@ $categories=$data->get_category();
         <div style="width:100%; " class="min-vh-100   col-6 d-flex  justify-content-center align-items-center" >
   
         <form method="post" class="col-lg-6 " action="../../controller/dashboard/Product.php" enctype="multipart/form-data">
-        event.preventDefault();
     <div class="form-group ">
       <label for="exampleInputName">Product Name</label>
       <input type="text" class="form-control" id="username" aria-describedby="nameHelp" name="productName" >
@@ -89,11 +88,11 @@ $categories=$data->get_category();
     <label for="category">Choose Category:</label>
     <a href="../../views/dashboard/AddCategory.php">add category</a>
     </select>
-    <select name="category" class="form-control my-sm-3" id="category">
+    <select name="category_id" class="form-control my-sm-3" id="category">
       <?php
       foreach($categories as $category){
       ?>
-      <option name="name" value=<?php echo $category['id']?>><?php echo $category['name']?></option>
+      <option value=<?php echo $category['id']?>><?php echo $category['name']?></option>
       <?php
       // <?=$category['id']
       }

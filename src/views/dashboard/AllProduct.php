@@ -48,19 +48,17 @@
         <th scope="col" >Image</th>
         <th  scope="col">categoryId</th>
         <th  scope="col">Created_at</th>
+        <th  scope="col">Is available</th>
         <th  scope="col">Action</th>
         <tr>
         </thead>
-
         <?php
         require("../../model/Connection.php");
-
 require("../../model/Product.php");
 require_once("../../controller/dashboard/pagination.php");
 //for pagination///
 $result=new Product();
 $totalNumberOfProducts=$result->getNumberOfProducts();
-
 $page=(isset($_GET['page']))?(int) $_GET['page'] : 1; 
 $pageLimit=3;
 $pagesNumber=ceil($totalNumberOfProducts / $pageLimit);
@@ -70,11 +68,8 @@ if(!validationPage($page,$pagesNumber))
 {
     header("location:".$_SERVER['PHP_SELF']."?page=1");
 }
-
 $products=$result->getProductForPagination($pageLimit,$offset);
-
 echo "<pre>";
-
         foreach($products as $product)
         {
             echo "<tbody>";
@@ -91,9 +86,21 @@ echo "<pre>";
 
                 }
               }
+              if($product['quantity']==0)
 
+              {
+                echo"<td class='btn btn-danger'>
+                unavailable
+                </td>";
+              }
+              else{
+                echo"<td class='btn btn-primary'>
+                available
+                </td>";
+              }
+             
             echo "<td>
-            <a class='btn btn-primary' href= ' EditUser.php?id={$product['id']}'>'<>'</a>
+            
             <a class='btn btn-primary' href= ' EditProduct.php?id={$product['id']}'>edit</a>
             <a class='btn btn-danger' href='DeleteProduct.php?id={$product['id']}'>delete</a>
             </td>";

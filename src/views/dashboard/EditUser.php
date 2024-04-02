@@ -12,12 +12,19 @@
 <?php
 require ("../../model/User.php");
 require("../../model/Connection.php");
+require("../../model/Room.php");
+    var_dump($_GET['id']);
+
+  $data=new Room;
+  $rooms=$data->getAllRooms();
 $error=[];
 if(isset($_GET['error'])){
   $error=json_decode($_GET['error'],true);
 }
 $users=new User;
-$id=$_GET['id'];
+ $id=$_GET['id'];
+
+
 $data=$users->get_user($id);
 
 ?>
@@ -27,7 +34,8 @@ $data=$users->get_user($id);
 <div style="width:100%; " class="min-vh-100   col-6 d-flex  justify-content-center align-items-center" >
   <form method="post" class="col-lg-6 " action="../../controller/dashboard/UserControlar.php" enctype="multipart/form-data">
     <div class="form-group ">
-    <input type="hidden" id="fname" value="<?php echo $data['id']?>" name="id"><br><br>
+      
+    <input type="hidden" id="fname" value="<?php echo $id?>" name="id"><br><br>
       <label for="exampleInputName">Name</label>
       <input type="text" class="form-control" id="username" value="<?php echo $data['username']?>" aria-describedby="nameHelp" name="username" >
       <small class="text-danger" ><?php if(isset($error['$username'])){
@@ -50,31 +58,40 @@ $data=$users->get_user($id);
     </div>
     <div class="">
       <label for="exampleInputPassword1">Confirm Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" name="cpassword" >
+      <input value="<?php echo $data['password']?>" type="password" class="form-control" id="exampleInputPassword1" name="cpassword" >
       <small class="text-danger" ><?php if(isset($error['$password'])){
         echo $error['$password'];
       } ?></small>
     </div>
-    <div class="">
+    <!-- <div class="">
       <label for="exampleInputRomeNumber">Rome Number</label>
       <input type="text" class="form-control" "  id="exampleInputRomeNumber" name="name" >
       <small class="text-danger" ><?php if(isset($error['$name'])){
         echo $error['$name'];
       } ?></small>
-    </div>
+    </div> -->
+    <select name="room_id" class="form-control custom-select js-example-multiple" id="room">
+      <?php
+        foreach($rooms as $room){?>
+        <option value="<?php  echo $room['id'];?>"><?php echo $room['name'];?></option>
+        <?php }?>
+      </select> 
     <div>
-    <label for="photo">Choose a photo:</label>
+    <!-- <label for="photo">Choose a photo:</label>
     <?php if(isset($error['$image'])){
         echo $error['$image'];
       } ?>
-    <input type="file" id="photo" value="<?php echo $data['image']?>" name="image" accept="image/*">
-    </div>
-      <button name="updateUser" type="submit " class="btn btn-primary my-sm-2 ">Update</button>
+    <input   value="<?php echo $data['image']?>" 
+ type="file" id="photo" value="<?php echo $data['image']?>" name="image" accept="image/*">
+    </div> -->
 
-      <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
-    
+   
+      <button   name="updateUser" type="submit " class="btn btn-primary my-sm-2 ">Update</button>
+
+      <input  class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
+      
   </form>
-
+  <!-- value="<?php echo $data['image']?>"  -->
 </div>
 
       

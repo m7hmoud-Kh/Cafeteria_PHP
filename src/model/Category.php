@@ -6,8 +6,13 @@ class Category {
         $this->con = $connection->con;
     }
 
-    public function get_category($con=1){
-        $cat = $this->con->query("select* from categories where $con");
+    public function get_category($values=1){
+        $cat = $this->con->query("select* from categories where $values");
+        return $cat->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getCategoryById($id)
+    {
+        $cat = $this->con->query("select* from categories where id= $id");
         return $cat->fetchAll(PDO::FETCH_ASSOC);
     }
     public function addCategory($categoryName){
@@ -21,7 +26,15 @@ class Category {
         
     
     }
+function deleteCategoryById($id){
+    
+        $this->con->query("delete from categories where id=$id");
+    
+}
+public function updateCategory($values,$id){
+    $this->con->query("update categories set $values where  id= $id");
 
+}
 }
 
 ?>
