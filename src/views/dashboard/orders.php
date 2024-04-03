@@ -99,6 +99,7 @@ include_once './includes/nav_bar.php';
                                 <thead>
                                 <tr class="text-dark">
                                     <th>Id</th>
+                                    <th>Image</th>
                                     <th>Product Name</th>
                                     <th>quantity</th>
                                     <th>Price</th>
@@ -114,6 +115,10 @@ include_once './includes/nav_bar.php';
                                                 <tr>
                                                     <td>
                                                         <?=$orderProduct['product_id']?>
+                                                    </td>
+                                                    <td>
+                                                        <img class="img-fluid" src="./ProductImage/<?=$product['image']?>"
+                                                        alt="d">
                                                     </td>
                                                     <td><?=$product['name']?></td>
                                                     <td>

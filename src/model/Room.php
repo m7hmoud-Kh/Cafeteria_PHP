@@ -12,12 +12,18 @@ class Room
         $this->connection = $connection->con;
 
     }
-  
+
+    public function getAllRoom(){
+        $stmt = $this->con->prepare('SELECT * FROM rooms');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getRoomsPagination($pageLimit,$offset){
         $data= $this->con->query("select* from rooms limit $pageLimit offset $offset");
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
-  
+
     public  function getRoomById($id)
     {
         $cat = $this->con->query("select* from rooms where id= $id");
@@ -32,12 +38,12 @@ class Room
     public function addRoom($room){
         $cat=$this->con->prepare('insert into rooms(name)  values(?)');
         $cat->execute([$room]);
-    
+
     }
     function deleteRoomById($id){
-    
+
         $this->con->query("delete from rooms where id=$id");
-    
+
     }
     public function updateRoom($values,$id){
         $this->con->query("update rooms set $values where  id= $id");
@@ -65,12 +71,14 @@ class Room
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    
+
     public function getAll_Room($cond = 1)
     {
         $this->connection = $this->connection->query("select * from rooms where $cond");
         return $this->connection->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
 
 
 

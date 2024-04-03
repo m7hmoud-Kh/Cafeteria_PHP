@@ -13,8 +13,11 @@
                                     <li> <a href="./manualOrder.php">Manual Order</a> </li>
                                     <li> <a href="./checkOrder.php">Checks Order</a> </li>
                                     <li> <a href="./orders.php">All Orders</a> </li>
-                                    <li> <a href="index-04.html">Dashboard 04</a> </li>
-                                    <li> <a href="index-05.html">Dashboard 05</a> </li>
+                                    <li> <a href="./AllCategory.php">All Categories</a> </li>
+                                    <li> <a href="./AllProduct.php">All Products</a> </li>
+                                    <li> <a href="./AllRoom.php">All Room</a> </li>
+                                    <li> <a href="./AllUser.php">All User</a> </li>
+
                                 </ul>
                             </li>
 

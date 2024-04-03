@@ -106,7 +106,8 @@ if(isset($_SESSION['user_id'])){
                                                 <div class="media align-items-center"><a
                                                         class="reset-anchor d-block animsition-link"
                                                         href="javascript:void(0);">
-                                                        <img src="<?=$product['image']?>" alt="..." width="70" /></a>
+                                                        <img src="./ProductImage/<?=$product['image']?>"
+                                                        alt="..." width="70" /></a>
                                                     <div class="media-body ml-3">
                                                         <strong class="h6">
                                                             <a class="reset-anchor animsition-link">

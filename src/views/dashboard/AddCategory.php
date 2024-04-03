@@ -1,36 +1,53 @@
 <?php
+
+
+include_once './includes/header.php';
+getHeader('Add Category');
+include_once './includes/nav_bar.php';
+
+
 $error=[];
 if(isset($_GET['error'])){
   $error=json_decode($_GET['error'],true);
 }
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 ">
 
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Left Sidebar start-->
+    <?php include_once './includes/side_bar.php'; ?>
+    <!-- Left Sidebar End-->
 
-<h1 class="text-primary">Add Category</h1>
-<div style="width:100%; " class="min-vh-100   col-6 d-flex  justify-content-center align-items-center" >
-<form method="post" class="col-lg-6 " action="../../controller/dashboard/Category.php" enctype="multipart/form-data">
-    <div class="form-group ">
-      <label for="exampleInputName">Category name</label>
-      <input type="text" class="form-control" id="username" aria-describedby="nameHelp" name="name" >
-      <small class="text-danger" ><?php if(isset($error['$name'])){
-        echo $error['$name'];
-      } ?></small>
+    <div class="content-wrapper">
+
+
+      <div class="row">
+        <div class="col-xl-12 mb-30">
+          <div class="card card-statistics mb-30">
+            <div class="card-body">
+
+              <h1 class="text-primary">Add Category</h1>
+              <form method="post" action="../../controller/dashboard/Category.php" enctype="multipart/form-data">
+                <div class="form-group ">
+                  <label for="exampleInputName">Category name</label>
+                  <input type="text" class="form-control" id="username" aria-describedby="nameHelp" name="name">
+                  <small class="text-danger"><?php if(isset($error['$name'])){
+                    echo $error['$name'];
+                  } ?></small>
+                </div>
+                <button type="submit " class="btn btn-primary my-sm-2 ">Save</button>
+                <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <button type="submit " class="btn btn-primary my-sm-2 ">Save</button>
-      <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
-    
-</form>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-</html>
+  </div>
+</div>
+
+<?php
+  include_once './includes/footer.php';
+?>

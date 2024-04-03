@@ -80,7 +80,7 @@ include_once './includes/nav_bar.php';
                                         <div class="mb-3 position-relative">
                                             <div class="badge text-white badge-"></div>
                                             <a class="d-block" href="#">
-                                                <img class="img-fluid" src="../dashboard/assets/images/blog/03.jpg"
+                                                <img class="img-fluid" src="./ProductImage/<?=$product['image']?>"
                                                     alt="d">
                                             </a>
                                             <div class="product-overlay mt-2">

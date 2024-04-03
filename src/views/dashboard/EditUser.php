@@ -1,15 +1,11 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-</head>
-<body>
 <?php
+
+
+include_once './includes/header.php';
+getHeader('Edit User');
+include_once './includes/nav_bar.php';
+
 require ("../../model/User.php");
 require("../../model/Connection.php");
 require("../../model/Room.php");
@@ -24,13 +20,25 @@ $users=new User;
 
 $data=$users->get_user($id);
 ?>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Left Sidebar start-->
+    <?php include_once './includes/side_bar.php'; ?>
+    <!-- Left Sidebar End-->
 
-          <h1 class="text-primary">Update User</h1>
+    <div class="content-wrapper">
 
-<div style="width:100%; " class="min-vh-100   col-6 d-flex  justify-content-center align-items-center" >
+
+      <div class="row">
+        <div class="col-xl-12 mb-30">
+          <div class="card card-statistics mb-30">
+            <div class="card-body">
+
+
+  <h1 class="text-primary">Update User</h1>
   <form method="post" class="col-lg-6 " action="../../views/dashboard/UpdateUser.php" enctype="multipart/form-data">
     <div class="form-group ">
-      
+
     <input type="hidden" id="fname" value="<?php echo $id?>" name="id"><br><br>
       <label for="exampleInputName">Name</label>
       <input type="text" class="form-control" id="username" value="<?php echo $data['username']?>" aria-describedby="nameHelp" name="username" required>
@@ -65,18 +73,23 @@ $data=$users->get_user($id);
         foreach($rooms as $room){?>
         <option value="<?php  echo $room['id'];?>"><?php echo $room['name'];?></option>
         <?php }?>
-      </select> 
+      </select>
     <div>
 
       <button   name="updateUser" type="submit " class="btn btn-primary my-sm-2 ">Update</button>
 
       <input  class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
-      
+
   </form>
-  <!-- value="<?php echo $data['image']?>"  -->
+
+  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-      
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-</html>
+<?php
+  include_once './includes/footer.php';
+?>

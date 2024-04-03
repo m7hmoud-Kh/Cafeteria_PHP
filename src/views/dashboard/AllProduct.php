@@ -1,40 +1,27 @@
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<?php
 
-</head>
+include_once './includes/header.php';
+getHeader('All Products');
+include_once './includes/nav_bar.php';
 
-<body >
-<div class="container">
-    
-<div class="col-lg-12">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-            
-              <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                  </li>
-                </ul>
-                
-              </div>
-            </nav>
-          </div>
+?>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Left Sidebar start-->
+    <?php include_once './includes/side_bar.php'; ?>
+    <!-- Left Sidebar End-->
+
+    <div class="content-wrapper">
+
+
+      <div class="row">
+        <div class="col-xl-12 mb-30">
+          <div class="card card-statistics mb-30">
+            <div class="card-body">
+
+
     <div class="d-flex justify-content-between my-sm-4">
         <h1>All Products</h1>
         <a class="w-0 h-25 btn btn-primary" href="../../views/dashboard/AddProduct.php">add product</a>
@@ -59,7 +46,7 @@ require_once("../../controller/dashboard/pagination.php");
 //for pagination///
 $result=new Product();
 $totalNumberOfProducts=$result->getNumberOfProducts();
-$page=(isset($_GET['page']))?(int) $_GET['page'] : 1; 
+$page=(isset($_GET['page']))?(int) $_GET['page'] : 1;
 $pageLimit=3;
 $pagesNumber=ceil($totalNumberOfProducts / $pageLimit);
 $offset=($page-1)*$pageLimit;
@@ -77,7 +64,7 @@ echo "<pre>";
             foreach($product as $key=>$data){
               if($key=='image')
               {
-                  echo "<td><img src='.../../img/$data' width='50' hight='50'></td>";
+                  echo "<td><img src='.../../ProductImage/$data' width='50' hight='50'></td>";
               }
               else
                 {
@@ -96,16 +83,16 @@ echo "<pre>";
                 available
                 </td>";
               }
-             
+
             echo "<td>
-            
+
             <a class='btn btn-primary' href= ' EditProduct.php?id={$product['id']}'>edit</a>
             <a class='btn btn-danger' href='DeleteProduct.php?id={$product['id']}'>delete</a>
             </td>";
 
             echo "</tr>";
             echo "</tbody>";
-        
+
       }
         ?>
     </table>
@@ -125,8 +112,15 @@ echo "<pre>";
   </ul>
 </nav>
 
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-</body>
-</html>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php
+  include_once './includes/footer.php';
+?>
