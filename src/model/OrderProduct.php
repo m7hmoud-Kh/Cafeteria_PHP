@@ -1,5 +1,4 @@
 <?php
-
 class OrderProduct{
 
     public $con;
@@ -50,6 +49,16 @@ class OrderProduct{
         $stmt->execute();
     
         // Return the last inserted ID
+    }
+
+
+     function getOrderDetailes($id)
+    {
+        $stm=$this->con->prepare("SELECT pr.id,pr.name,pr.price,ord.quantity,pr.image FROM order_products as ord join products as pr on ord.product_id=pr.id and order_id =?");
+        $stm->bindParam(1,$id,PDO::PARAM_INT);
+        $stm->execute();
+        $data=$stm->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
     }
 
 }

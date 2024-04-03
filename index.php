@@ -1,5 +1,4 @@
 <?php
-
 require "./src/controller/website/ProductController.php";
 // require "./gallery/w.jpg"
 ?>
