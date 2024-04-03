@@ -10,13 +10,10 @@
 </head>
 <body>
 <?php
-session_start();
-
 require ("../../model/User.php");
 require("../../model/Connection.php");
 require("../../model/Room.php");
-    var_dump($_GET['id']);
-
+$id=$_GET['id'];
   $data=new Room;
   $rooms=$data->getAllRooms();
 $error=[];
@@ -24,12 +21,8 @@ if(isset($_GET['error'])){
   $error=json_decode($_GET['error'],true);
 }
 $users=new User;
-$_SESSION["id"]=$_GET['id'];
 
-
-$id=$_SESSION["id"];
 $data=$users->get_user($id);
-
 ?>
 
           <h1 class="text-primary">Update User</h1>
@@ -61,7 +54,7 @@ $data=$users->get_user($id);
     </div>
     <div class="">
       <label for="exampleInputPassword1">Confirm Password</label required>
-      <input value="<?php echo $data['password']?>" type="password" class="form-control" id="exampleInputPassword1" name="cpassword" >
+      <input value="<?php echo $data['password']?>" type="password" class="form-control" id="exampleInputPassword1" name="password" >
       <small class="text-danger" ><?php if(isset($error['$password'])){
         echo $error['$password'];
       } ?></small>
@@ -74,15 +67,7 @@ $data=$users->get_user($id);
         <?php }?>
       </select> 
     <div>
-    <!-- <label for="photo">Choose a photo:</label>
-    <?php if(isset($error['$image'])){
-        echo $error['$image'];
-      } ?>
-    <input   value="<?php echo $data['image']?>" 
- type="file" id="photo" value="<?php echo $data['image']?>" name="image" accept="image/*">
-    </div> -->
 
-   
       <button   name="updateUser" type="submit " class="btn btn-primary my-sm-2 ">Update</button>
 
       <input  class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">

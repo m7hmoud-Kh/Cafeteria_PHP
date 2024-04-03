@@ -13,7 +13,7 @@ class Room{
     }
 public  function getRoomById($id)
 {
-    $cat = $this->con->query("select* from categories where id= $id");
+    $cat = $this->con->query("select* from rooms where id= $id");
     return $cat->fetchAll(PDO::FETCH_ASSOC);
 }
     public function getAllRooms($con=1){
@@ -33,7 +33,7 @@ public  function getRoomById($id)
     
 }
 public function updateRoom($values,$id){
-    $this->con->query("update categories set $values where  id= $id");
+    $this->con->query("update rooms set $values where  id= $id");
 
 
 }

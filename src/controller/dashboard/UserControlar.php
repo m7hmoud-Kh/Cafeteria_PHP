@@ -66,23 +66,23 @@ else
 //         }
     
 // }
-// $result=$users->get_user("email='$email'");
+$result=$users->getUserByEmail("email='$email'");
 
-//     if($result)
-//     {
-//         $error['$existEmail']="email is exist";
+    if($result)
+    {
+        $error['$existEmail']="email is exist";
 
-//     }
+    }
 
-function validErrorForAddUser($error,)
-{
+
+
     
     if(count($error)>0)
     {
         header("location:../../views/dashboard/AddUserView.php?error=".json_encode($error));
         
     }
-}
+
 // function updateUse($err,$use)
 // {
 //     validErrorForUpdateUser($err);
@@ -98,27 +98,25 @@ function validErrorForAddUser($error,)
 // }
        
 
-function addUser($err){
-    validErrorForAddUser($err);
-    $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-    try {
-        $users->add_user($username,$email,$room_id,$passwordHash,$image);
-        header("location:../../views/dashboard/AllUser.php");
-    } catch (PODException $th) {
-        echo $th->getMessage();
-        header("location:".$_SERVER['PHP_SELF']."?errors=");
+
+    else{
+        
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        try {
+            $users->add_user($username,$email,$room_id,$passwordHash,$image);
+            header("location:../../views/dashboard/AllUser.php");
+        } catch (PODException $th) {
+            echo $th->getMessage();
+            header("location:".$_SERVER['PHP_SELF']."?errors=");
+        }
     }
-}
-if(isset( $_POST['addUser']) ){
-    
-    addUser($error);
 
-}
-if(isset( $_POST['updateUser']) ){
-    
-    updateUse($error,$users);
 
-}
+// if(isset( $_POST['updateUser']) ){
+    
+//     updateUse($error,$users);
+
+// }
 
 
 

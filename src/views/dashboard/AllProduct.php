@@ -82,8 +82,6 @@ echo "<pre>";
               else
                 {
                   echo "<td>$data</td>";
-                
-
                 }
               }
               if($product['quantity']==0)

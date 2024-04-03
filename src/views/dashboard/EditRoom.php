@@ -9,7 +9,7 @@ require_once("../../controller/dashboard/pagination.php");
 $result=new Room();
 $id=$_GET['id'];
 $rooms=$result-> getRoomById($id);
-
+var_dump($rooms);
 ?>
 <!DOCTYPE html>
 <html lang="en">

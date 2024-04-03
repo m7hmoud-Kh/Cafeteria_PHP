@@ -9,8 +9,6 @@ require_once("../../controller/dashboard/pagination.php");
 $result=new Category();
 $id=$_GET['id'];
 $categories=$result-> getCategoryById($id);
-
-var_dump($categories);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +20,6 @@ var_dump($categories);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-
 <h1 class="text-primary">Update Category</h1>
 <div style="width:100%; " class="min-vh-100   col-6 d-flex  justify-content-center align-items-center" >
     <form method="post" class="col-lg-6 " action="../../views/dashboard/UpdateCategory.php" enctype="multipart/form-data">

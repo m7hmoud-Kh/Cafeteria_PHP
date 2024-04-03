@@ -92,20 +92,15 @@ echo "<pre>";
               else
                 {
                   echo "<td>$data</td>";
-                
-
                 }
               }
-
             echo "<td>
             <a class='btn btn-primary' href= ' EditUser.php?id={$user['id']}'>edit</a>
             <a class='btn btn-danger' href='DeleteUser.php?id={$user['id']}'>delete</a>
             </td>";
-
             echo "</tr>";
             echo "</tbody>";
-        
-      }
+            }
         ?>
     </table>
     <nav aria-label="...">

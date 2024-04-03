@@ -11,10 +11,9 @@ require ("../../model/Product.php");
 
 require("../../model/Category.php");
 $data=new Category;
-$categories=$data->get_category();
+ $categories=$data->get_category();
 $products=new Product;
 $id=$_GET['id'];
-
 $data=$products->getProduct($id);
 ?>
 
@@ -57,7 +56,7 @@ $data=$products->getProduct($id);
             </nav>
           </div>
           
-          <h1 class="text-primary">AddProduct</h1>
+          <h1 class="text-primary">Update Product</h1>
 
         <div style="width:100%; " class="min-vh-100   col-6 d-flex  justify-content-center align-items-center" >
   <form method="post" class="col-lg-6 " action="../../views/dashboard/UpdateProduct.php" enctype="multipart/form-data">
@@ -82,7 +81,7 @@ $data=$products->getProduct($id);
     <div class="form-outline" style="width: 22rem;">
       <label   class="form-label" for="form1">Enter the quantity</label>
     <i class="fas fa-dollar-sign trailing"></i>
-    <input  value="<?php echo $data['price']?>"type="number" id="form1" name="quantity" class="form-control form-icon-trailing" />
+    <input  value="<?php echo $data['quantity']?>"type="number" id="form1" name="quantity" class="form-control form-icon-trailing" />
     <small class="text-danger" ><?php if(isset($error['$price'])){
         echo $error['$price'];
       } ?></small>
@@ -102,7 +101,7 @@ $data=$products->getProduct($id);
       } ?>
     <input class="my-ms-4" type="file" id="photo" name="image" accept="image/*">
     </div>
-      <button type="submit " class="btn btn-primary my-sm-2 ">Save</button>
+      <button type="submit " class="btn btn-primary my-sm-2 ">Update</button>
       <input class="col-lg2 text-light p-1 my-sm-2 bg-danger rounded-1 border-0 " type="reset">
   </form>
 </div>
@@ -113,3 +112,6 @@ $data=$products->getProduct($id);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
+
+
+ 

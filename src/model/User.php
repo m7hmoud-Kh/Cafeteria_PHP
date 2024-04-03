@@ -28,7 +28,11 @@ function getUsersForPagination($pageLimit,$offset){
      }
 }
 function get_user($id){
-    $result=$this->con->query("select* from users where id=$id");
+    $result=$this->con->query("select* from users  where id=$id");
+   return $result->fetch(PDO::FETCH_ASSOC);
+}
+function getUserByEmail($email){
+    $result=$this->con->query("select* from users  where $email");
    return $result->fetch(PDO::FETCH_ASSOC);
 }
 function delete_user($id){

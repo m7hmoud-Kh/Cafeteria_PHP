@@ -1,9 +1,6 @@
 <?php
 require ("../../model/User.php");
 require("../../model/Connection.php");
-
-
-
 $users=new User;
 $id=$_POST['id'];
 $password=$_POST['password'];
@@ -11,7 +8,8 @@ $password=$_POST['password'];
 $users->updateUser("
 username='{$_POST['username']}',
 email='{$_POST['email']}',
-password='$passwordHash'
-",$id);
+room_id='{$_POST['room_id']}',
+password='$password'
+","$id");
 header("location:../../views/dashboard/AllUser.php");
 

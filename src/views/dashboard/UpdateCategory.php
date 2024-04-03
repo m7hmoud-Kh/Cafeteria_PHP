@@ -2,8 +2,6 @@
 require ("../../model/Category.php");
 require("../../model/Connection.php");
 
-var_dump($_POST);
-
 $categories=new Category;
 $id=$_POST['id'];
 
