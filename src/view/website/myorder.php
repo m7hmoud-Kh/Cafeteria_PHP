@@ -133,6 +133,7 @@ else{
                     echo "<div class='border border-success'>";
                     echo "<div>{$productinfo['image']}</div>";
                     echo "<div>Product Name: {$productinfo['name']}.</div>";
+                    echo"<div>Product Quantity : {$productinfo['quantity']}</div>";
                     echo "<div>Price: ".($productinfo['price'] * $productinfo['quantity'])."</div>";
                     echo "</div>";
                     

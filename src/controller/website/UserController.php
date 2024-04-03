@@ -34,6 +34,9 @@ class UserController
          $this->flag=$this->userModel->getUserData("email='{$email}'");
         $HashedPass=$this->flag['password'];
         
+        var_dump(password_verify($pass,$this->flag['password']));
+        
+        die();
          if($this->flag && password_verify($pass,$HashedPass))
          {
                
@@ -133,20 +136,19 @@ $userControler=new UserController;
 if(isset($_POST['login']))
 {
     // var_dump($_POST['password']);
-    // die();
-    if(empty(validate($_POST['email'])))
+    if(empty($_POST['email']))
     {   
         $errors['email']='email is required';
     }
-    else if(!filter_var(validate($_POST['email']),FILTER_VALIDATE_EMAIL))
+    else if(!filter_var($_POST['email'],FILTER_VALIDATE_EMAIL))
     {
         $errors['email']='invalid email';
-
+        
     }
     if(empty($_POST['password']))
     {
         $errors['password']='password required';
-            
+        
     }
     if(count($errors)>0)
     {
@@ -154,7 +156,8 @@ if(isset($_POST['login']))
     }
     else
     {
-
+       
+        $errors=[];
         $userControler->login($_POST['email'],$_POST['password']);
     }
 }
