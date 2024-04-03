@@ -4,10 +4,11 @@ include_once '../../controller/dashboard/ManualOrder.php';
 $manualOrder = new ManualOrder();
 $allUser = $manualOrder->getAllUser();
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userId = intval($_POST['user_id']);
     //store userId in Database
-    if(is_int($userId)){
+    if (is_int($userId)) {
         $_SESSION['user_id'] = $userId;
         header('Location: shoppingOrder.php');
     }
@@ -23,7 +24,7 @@ include_once './includes/nav_bar.php';
 <div class="container-fluid">
     <div class="row">
         <!-- Left Sidebar start-->
-        <?php include_once './includes/side_bar.php';?>
+        <?php include_once './includes/side_bar.php'; ?>
         <!-- Left Sidebar End-->
 
         <div class="content-wrapper">
@@ -48,32 +49,30 @@ include_once './includes/nav_bar.php';
                     <div class="card card-statistics mb-30">
                         <div class="card-body">
                             <h5 class="card-title">Make Order</h5>
-                                <?php
-                                if(isset($_SESSION['makeOrder'])){
-                                    ?>
-                                        <p class="alert alert-success">
-                                            <?=$_SESSION['makeOrder']?>
-                                        </p>
-                                    <?php
-                                    unset($_SESSION['makeOrder']);
-                                }
+                            <?php
+                            if (isset($_SESSION['makeOrder'])) {
                                 ?>
-                            <form action="<?=$_SERVER['PHP_SELF']?>" method="POST">
+                                <p class="alert alert-success">
+                                    <?= $_SESSION['makeOrder'] ?>
+                                </p>
+                                <?php
+                                unset($_SESSION['makeOrder']);
+                            }
+                            ?>
+                            <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                                 <div class="form-group">
                                     <label class="form-label">
                                         Choose User Name to Make Order
                                     </label>
-                                    <select
-                                    class="custom-select js-example-basic-multiple"
-                                    name="user_id" required>
+                                    <select class="custom-select js-example-basic-multiple" name="user_id" required>
                                         <option selected disabled>
                                             Choose User Name
                                         </option>
                                         <?php
                                         foreach ($allUser as $user) {
                                             ?>
-                                            <option value="<?=$user['id']?>">
-                                                <?= $user['username']?>
+                                            <option value="<?= $user['id'] ?>">
+                                                <?= $user['username'] ?>
                                             </option>
                                             <?php
                                         }
@@ -86,6 +85,6 @@ include_once './includes/nav_bar.php';
                     </div>
                 </div>
             </div>
-<?php
-include_once './includes/footer.php';
-?>
+            <?php
+            include_once './includes/footer.php';
+            ?>

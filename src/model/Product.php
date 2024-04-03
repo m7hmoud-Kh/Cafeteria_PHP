@@ -1,9 +1,16 @@
 <?php
-class Product {
+
+class Product
+{
     public $con;
-    function __construct(){
-        $connection = new Connection();
-        $this->con = $connection->con;    
+    private $connection = "";
+
+    public function __construct()
+    {
+        $connect = new Connection();
+        $this->con = $connect->con;
+        $this->connection = $connect->con;
+
     }
 function addProducts($productName, $price,$quantity,$image,$category_id){
     $stmt=$this->con->prepare('insert into products(name,price,quantity,image,category_id)  values(?,?,?,?,?)');
@@ -16,7 +23,7 @@ function getProductForPagination($pageLimit,$offset){
 }
 function getProduct($condition=1){
     $result=$this->con->query("select* from products where $condition");
-return $result->fetch(PDO::FETCH_ASSOC);
+    return $result->fetch(PDO::FETCH_ASSOC);
 }
 function deleteProductById($id){
     $this->con->query("delete from products where id=$id");
@@ -26,16 +33,56 @@ function updateProduct($values,$id){
 }
 function getNumberOfProducts() {
     $result = $this->con->query("select count(id) from products");
-    
     if ($result) {
-        
         $count = $result->fetchColumn();
         return $count;
     } else {
         return false;
     }
 }
+
+
+    public function getProductById($id)
+    {
+        $stmt = $this->con->prepare('SELECT * FROM products WHERE id = ?');
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function decrementOfQuantity($data)
+    {
+        $stmt = $this->con->prepare('UPDATE products set quantity = ? where id = ?');
+        $stmt->execute([$data['quantity'], $data['product_id']]);
+
+    }
+
+    public function getProducts($cond = 1)
+    {
+        $this->connection = $this->connection->query("SELECT * FROM products WHERE quantity > 0");
+        return $this->connection->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function selectBasedCondetion($cond = '')
+    {
+        $statement = $this->connection->prepare("SELECT * FROM products WHERE $cond");
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getCategoryName($id)
+    {
+        $this->connection = $this->connection->query("select name from categories where id=$id");
+        return $this->connection->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public function search($word)
+    {
+        $this->connection = $this->connection->query("SELECT * FROM products WHERE name LIKE '%%$word%%'");
+        return $this->connection->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+   
+
+
 }
-?>
-}
-?>
