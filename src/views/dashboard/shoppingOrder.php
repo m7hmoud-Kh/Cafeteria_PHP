@@ -1,5 +1,6 @@
 <?php
-session_start();
+// session_start();
+include_once './includes/header.php';
 include_once '../../controller/dashboard/ManualOrder.php';
 $manualOrder = new ManualOrder();
 $allProduct = $manualOrder->getAllProduct();
@@ -17,7 +18,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $_SESSION['success'] = 'Product Added Successfully';
 }
 
-include_once './includes/header.php';
 getHeader('Shopping Order');
 include_once './includes/nav_bar.php';
 ?>

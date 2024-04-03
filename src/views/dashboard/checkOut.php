@@ -1,5 +1,6 @@
 <?php
-session_start();
+// session_start();
+include_once './includes/header.php';
 if(isset($_SESSION['user_id'])){
     include_once '../../controller/dashboard/ManualOrder.php';
     $manualOrder = new ManualOrder();
@@ -38,7 +39,6 @@ if(isset($_SESSION['user_id'])){
         }
     }
 
-    include_once './includes/header.php';
     getHeader('CheckOut Shipping');
     include_once './includes/nav_bar.php';
 

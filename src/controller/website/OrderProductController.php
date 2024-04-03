@@ -1,5 +1,6 @@
 <?php
 require '../../model/OrderProduct.php';
+require_once '../../model/Connection.php';
 
 class OrderProductController{
     private $Model;

@@ -1,6 +1,10 @@
 
 <?php
-
+session_start();
+if(!isset($_SESSION['admin']))
+{
+    header("Location:../../view/website/login.php");
+}
 function getHeader($title){
     echo <<<HTML
     <!DOCTYPE html>

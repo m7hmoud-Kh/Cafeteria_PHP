@@ -1,5 +1,4 @@
 <?php
-
 class Product
 {
     public $con;
@@ -58,8 +57,8 @@ class Product
 
     public function getProducts($cond = 1)
     {
-        $this->connection = $this->connection->query("SELECT * FROM products WHERE quantity > 0");
-        return $this->connection->fetchAll(PDO::FETCH_ASSOC);
+        $stm=$this->connection->query("SELECT * FROM products WHERE quantity > 0");
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function selectBasedCondetion($cond = '')

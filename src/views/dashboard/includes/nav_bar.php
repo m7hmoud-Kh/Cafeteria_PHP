@@ -49,13 +49,13 @@
                         <div class="dropdown-header">
                             <div class="media">
                                 <div class="media-body">
-                                    <h5 class="mt-0 mb-0">Michael Bean</h5>
-                                    <span>michael-bean@mail.com</span>
+                                    <h5 class="mt-0 mb-0"><?=$_SESSION['admin']['username']?></h5>
+                                    <span><?=$_SESSION['admin']['email']?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="text-danger ti-unlock"></i>Logout</a>
+                        <a class="dropdown-item" href="http://localhost/Cafeteria_php/src/controller/website/UserController.php?logout=1"><i class="text-danger ti-unlock"></i>Logout</a>
                     </div>
                 </li>
             </ul>

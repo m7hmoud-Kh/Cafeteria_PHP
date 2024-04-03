@@ -1,9 +1,11 @@
 <?php
 session_start();
 require '../../model/User.php';
+require_once '../../model/Connection.php';
 require '../../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require '../../../vendor/phpmailer/phpmailer/src/SMTP.php';
 require '../../../vendor/phpmailer/phpmailer/src/Exception.php';
+
 function validate($data)
 {
 $data=trim($data);
@@ -34,19 +36,17 @@ class UserController
          $this->flag=$this->userModel->getUserData("email='{$email}'");
         $HashedPass=$this->flag['password'];
         
-        var_dump(password_verify($pass,$this->flag['password']));
-        
-        die();
+       
          if($this->flag && password_verify($pass,$HashedPass))
          {
                
                 if($this->flag['is_admin']==1){
 
-                    $_SESSION['admin']['is_admin']=$this->flag['id'];
-                    $_SESSION['admin']['is_admin']=$this->flag['username'];
-                    $_SESSION['admin']['is_admin']=$this->flag['email'];
+                    $_SESSION['admin']['id']=$this->flag['id'];
+                    $_SESSION['admin']['username']=$this->flag['username'];
+                    $_SESSION['admin']['email']=$this->flag['email'];
                     //render to admin panel
-                    header("Location:");
+                    header("Location:../../views/dashboard/manualOrder.php");
                 }
                 else{
                     $_SESSION['username']=$this->flag['username'];
@@ -213,5 +213,11 @@ else if(isset($_POST['Reset'])){
 else if($_POST['confirm'])
 {
     $userControler->confirm_code($_POST['code']);
+}
+if(isset($_GET['logout']))
+{
+    session_destroy();
+    header("Location:../../view/website/login.php");
+    exit();
 }
 ?>

@@ -1,18 +1,44 @@
 <?php
+session_start();
+if(!isset($_SESSION['username']))
+{
+    header("Location:src/view/website/login.php");
+}
 require "./src/controller/website/ProductController.php";
 // require "./gallery/w.jpg"
 ?>
 
 <!-- add search button  -->
-<nav class='navbar navbar-light bg-dark col-12 '>
-    <div class=''>
+<nav class='navbar navbar-expand-lg navbar-light bg-dark col-12 '>
+    <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand" href="#"><?=$_SESSION['username']?></a>
+    
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="http://localhost/Cafeteria_php/index.php">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://localhost/Cafeteria_php/src/view/website/myorder.php">Myorder</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="http://localhost/Cafeteria_php/src/controller/website/UserController.php?logout=1" >Logout</a>
+        </li>
+      </ul>
         <form class="d-flex" method="post">
             <input class="form-control me-2 border-warning" name="dataSearch" type="search" placeholder="Search"
                 aria-label="Search">
             <button class="btn btn-outline-success" name="search">Search</button>
         </form>
+        
     </div>
 </nav>
+
+
+  
 
 
 
@@ -42,7 +68,7 @@ require "./src/controller/website/ProductController.php";
                             echo "<td><input class='form-control' name='productName[]' type='text' value='{$singleProduct['name']}' readonly style='border: none;'></td>";
                             echo "<td><input class='form-control' name='productPrice[]' type='text' value='{$singleProduct['price']}' readonly style='border: none;'></td>";
                             echo "<td><input class='form-control' name='productQantity[]' type='number' value='1' readonly style='border: none;'></td>";
-                            echo " <td><img width='50px' src='./gallery/{$singleProduct['image']}'  </td> ";
+                            echo " <td><img width='50px' height='50px' src='src/views/dashboard/ProductImage/{$singleProduct['image']}'  </td> ";
                             echo "</tr>";
                             $total += $singleProduct['price'];
                         }
@@ -100,7 +126,7 @@ require "./src/controller/website/ProductController.php";
                     echo
                         "
         <div class='card mt-2 text-center' style='width: 14rem;'>
-            <img src='./gallery/{$value['image']}' class='card-img-top mt-2' >
+            <img src='src/views/dashboard/ProductImage/{$value['image']}' width='50px' height='50px' class='card-img-top mt-2' >
             <div class='card-body'>
                 <h5 class='card-title'>Name :{$value['name']}</h5>
                 <p class='card-text'>price : {$value['price']}</p>

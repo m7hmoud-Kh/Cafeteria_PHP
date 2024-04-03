@@ -1,5 +1,6 @@
 <?php
-session_start();
+// session_start();
+include_once './includes/header.php';
 include_once '../../controller/dashboard/ManualOrder.php';
 $manualOrder = new ManualOrder();
 $allUser = $manualOrder->getAllUser();
@@ -17,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-include_once './includes/header.php';
 getHeader('Manual Order');
 include_once './includes/nav_bar.php';
 ?>

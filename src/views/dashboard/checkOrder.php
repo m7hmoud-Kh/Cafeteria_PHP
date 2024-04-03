@@ -1,5 +1,6 @@
 <?php
-session_start();
+// session_start();
+include_once './includes/header.php';
 include_once '../../controller/dashboard/CheckOrder.php';
 include_once '../../controller/dashboard/ManualOrder.php';
 $manualOrder = new ManualOrder();
@@ -21,7 +22,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 }
 
-include_once './includes/header.php';
 getHeader('Checks Order');
 include_once './includes/nav_bar.php';
 ?>
@@ -119,7 +119,7 @@ include_once './includes/nav_bar.php';
                                                                     <td><?=$product['name']?></td>
                                                                     <td><?=$orderProduct['quantity']?></td>
                                                                     <td>
-                                                                        <img src="<?=$product['image']?>" alt="..." />
+                                                                        <img src="ProductImage/<?=$product['image']?>" width="50px" height="50"alt="..." />
                                                                     </td>
                                                                     <td><?=$orderProduct['total']?></td>
                                                                 </tr>

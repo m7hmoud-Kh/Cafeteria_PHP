@@ -101,10 +101,11 @@ class Order{
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
-        $stmt->bindParam(2, $total, PDO::PARAM_STR);
-        $stmt->bindParam(3, $status, PDO::PARAM_STR);
+        $stmt->bindParam(2, $total, PDO::PARAM_INT);
+        $stmt->bindParam(3, $status, PDO::PARAM_INT);
         $stmt->bindParam(4, $notes, PDO::PARAM_STR);
         $stmt->bindParam(5, $room_id, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt;
     }
   

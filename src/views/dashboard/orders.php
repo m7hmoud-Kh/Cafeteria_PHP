@@ -1,5 +1,6 @@
 <?php
-session_start();
+// session_start();
+include_once './includes/header.php';
 include_once '../../controller/dashboard/AllOrder.php';
 include_once '../../controller/dashboard/CheckOrder.php';
 
@@ -15,7 +16,6 @@ if($_SERVER['REQUEST_METHOD'] =='POST'){
 $allOrder = $orders->getAllOrderLatest();
 
 
-include_once './includes/header.php';
 getHeader('Orders');
 include_once './includes/nav_bar.php';
 ?>
