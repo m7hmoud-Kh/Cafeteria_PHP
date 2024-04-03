@@ -31,17 +31,9 @@ if(!filter_var($email,FILTER_VALIDATE_EMAIL))
 $error['$email']="Invalid email";
 
 }
-// $result=$users->get_user("email='$email'");
-
-//     if($result)
-//     {
-//         $error['$existEmail']="email is exist";
-
-//     }
 
 
-
-if($_FILES['image']['size']>100000) {
+if($_FILES['image']['size']>10000000) {
     $error['image']="the image is too long";
 }
 else
@@ -53,19 +45,7 @@ else
         
     
 }
-// function validErrorForUpdateUser($error)
-// {
-    
-    
-//     if(count($error)>0)
-//         {
-//             $id=$_SESSION["id"]; 
-            
-//             header("Location:../../views/dashboard/EditUser.php?error=".json_encode($error),$id);
-            
-//         }
-    
-// }
+
 $result=$users->getUserByEmail("email='$email'");
 
     if($result)
@@ -83,21 +63,6 @@ $result=$users->getUserByEmail("email='$email'");
         
     }
 
-// function updateUse($err,$use)
-// {
-//     validErrorForUpdateUser($err);
-
-//             $use->updateUser("
-//             username='{$_POST['username']}',
-//             email='{$_POST['email']}',
-//             password='$password',
-//             room_Id='$room_id'
-//             ",$id);
-//             header("location:../../views/dashboard/AllUser.php");
-        
-// }
-       
-
 
     else{
         
@@ -112,11 +77,6 @@ $result=$users->getUserByEmail("email='$email'");
     }
 
 
-// if(isset( $_POST['updateUser']) ){
-    
-//     updateUse($error,$users);
-
-// }
 
 
 

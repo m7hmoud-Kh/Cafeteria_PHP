@@ -109,7 +109,7 @@ require("../../model/Room.php");
     </div> -->
     <div class="form-group">
         <label for="image">Image</label>
-        <input type="file" class="form-control" id="image"accept="image/* name="image" >
+        <input type="file" class="form-control" id="image"accept="image/*" name="image" >
         <?php if(isset($error['$image'])){
         echo $error['$image'];
       } ?>
