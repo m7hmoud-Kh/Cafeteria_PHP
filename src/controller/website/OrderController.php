@@ -1,5 +1,4 @@
 <?php
-// start_session();
 require '../../model/Order.php';
 class OrderController{
     private $Model;
@@ -24,7 +23,13 @@ class OrderController{
          $data=$this->Model->updateStatus($id);
          return $data;
     }
+    function filterDataByDate($from,$to,$user_id)
+    {
+        $data=$this->Model->filterDate($from,$to,$user_id);
+        return $data;
+    }
 }
+
 if(!empty($_GET['id']))
 {
 
@@ -39,3 +44,4 @@ if(!empty($_GET['id']))
     } 
    
 }
+

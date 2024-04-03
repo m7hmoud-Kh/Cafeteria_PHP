@@ -5,12 +5,12 @@ class Connection
     private $host="localhost";
     private $user="root";
     private $pass="";
-    private $conn;
+    private $con;
     function __construct()
     {
         try{
 
-            $this->conn=new pdo("mysql:host=$this->host;dbname=$this->dbname;port=3307",$this->user,$this->pass);
+            $this->con=new pdo("mysql:host=$this->host;dbname=$this->dbname;port=3307",$this->user,$this->pass);
         }catch(PDOException $e)
         {
             echo "connection failed".$e->getMessage();
@@ -21,7 +21,7 @@ class Connection
 
     function getConnection()
     {
-        return $this->conn;
+        return $this->con;
     }
 }
 

@@ -33,24 +33,28 @@ class UserController
     {
          $this->flag=$this->userModel->getUserData("email='{$email}'");
         $HashedPass=$this->flag['password'];
+        
          if($this->flag && password_verify($pass,$HashedPass))
          {
-                $_SESSION['username']=$this->flag['username'];
-                $_SESSION['user_id']=$this->flag['id'];
-                $_SESSION['email']=$this->flag['email'];
-                $_SESSION['is_admin']=$this->flag['is_admin'];
-                $_SESSION['room_id']=$this->flag['room_id'];
-                $_SESSION['user_image']=$this->flag['image'];
-                
+               
+                if($this->flag['is_admin']==1){
 
-                //setcookie("username",$this->flag['username']);
-                //setcookie("user_id",$this->flag['id']);
+                    $_SESSION['admin']['is_admin']=$this->flag['id'];
+                    $_SESSION['admin']['is_admin']=$this->flag['username'];
+                    $_SESSION['admin']['is_admin']=$this->flag['email'];
+                    //render to admin panel
+                    header("Location:");
+                }
+                else{
+                    $_SESSION['username']=$this->flag['username'];
+                    $_SESSION['user_id']=$this->flag['id'];
+                    $_SESSION['email']=$this->flag['email'];
+                    $_SESSION['room_id']=$this->flag['room_id'];
+                    $_SESSION['user_image']=$this->flag['image'];
+                    //render to index
+                    header("Location:../../../index.php");
+                }
                 
-                header("Location:../../view/website/welcome.php");
-                
-                
-                 // render to list product page on mostafa code 
-
             
          }
          else
@@ -101,34 +105,35 @@ class UserController
     } 
     function reset($pass,$token)
     {   
-        $hashedpass=password_hash($pass,PASSWORD_DEFAULT);
-       // var_dump($hashedpass);
+        $hashedpass=password_hash($pass,PASSWORD_DEFAULT);;
          $this->userModel->reset_pass($hashedpass,$token);
         //var_dump( $this->userModel);
+        $this->userModel->reset_token($token);
+
         header("Location:../../view/website/login.php");
     }
     function confirm_code($token)
     {
        
         $data=$this->userModel->getUserData("token='{$token}'");
-        var_dump($data);
+        //var_dump($data);
         if(!$data)
         {
             header("Location:../../view/website/code_reset_password.php?error=wrong_code");
         }
         else
         {
-
             header("Location:../../view/website/reset.php?token=$token");
         }
     }
-
+   
 }
 $userControler=new UserController;
 
 if(isset($_POST['login']))
 {
-
+    // var_dump($_POST['password']);
+    // die();
     if(empty(validate($_POST['email'])))
     {   
         $errors['email']='email is required';
@@ -170,6 +175,7 @@ else if(isset($_POST['forget']))
     else
     {   
         $userControler->forget($_POST['email']);
+        
     }
    
 
