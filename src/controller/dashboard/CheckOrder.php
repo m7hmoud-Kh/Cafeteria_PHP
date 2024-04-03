@@ -3,9 +3,6 @@ include_once '../../model/Order.php';
 include_once '../../model/User.php';
 include_once '../../model/Product.php';
 include_once '../../model/OrderProduct.php';
-
-
-
 require_once '../../model/Connection.php';
 
 class CheckOrder{
