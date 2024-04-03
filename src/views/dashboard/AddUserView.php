@@ -99,14 +99,7 @@ require("../../model/Room.php");
     <?php endforeach; ?> 
 </select>  -->
 
-    
-    <!-- <div class="form-group">
-    <label for="image">Choose a photo:</label>
-    <?php if(isset($error['$image'])){
-        echo $error['$image'];
-      } ?>
-    <input  class="form-control" type="file" id="image" name="image" accept="image/*">
-    </div> -->
+  
     <div class="form-group">
         <label for="image">Image</label>
         <input type="file" class="form-control" id="image"accept="image/*" name="image" >
